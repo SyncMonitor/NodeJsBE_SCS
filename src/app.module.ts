@@ -1,10 +1,35 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SensorsModule } from './sensors/sensors.module';
+import { ParkingAreasModule } from './parking-areas/parking-areas.module';
+import { SensorsMaintainersModule } from './sensors-maintainers/sensors-maintainers.module';
+import { MaintainersRegistryModule } from './maintainers-registry/maintainers-registry.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ ConfigModule ],
+      useFactory: ( configService: ConfigService ) => ({
+        type: 'postgres' as 'postgres',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: configService.get<number>('DATABASE_PORT'),
+        username: configService.get<string>('DATABASE_USERNAME'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_DATABASE'),
+        entities: [],
+        synchronize: true,
+        autoLoadEntities: true,
+      }),
+      inject: [ ConfigService ],
+    }),
+    SensorsModule,
+    ParkingAreasModule,
+    SensorsMaintainersModule,
+    MaintainersRegistryModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
