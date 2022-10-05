@@ -18,3 +18,5 @@ Per far partire il progetto:
     DATABASE_PASSWORD = password
     DATABASE_DATABASE = mydatabase
 </code>
+
+3. Eseguire nella cartella `root` il comando `npm start` per far partire il servizio in produzione, mentre eseguire il comando `npm run start:dev` per far partire il servizio in fase di sviluppo.
