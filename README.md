@@ -6,8 +6,9 @@ Il servizio si occupa di fornire le REST API per un parcheggio smart dotato di s
 ## Comandi
 Per far partire il progetto:
 
-1. Clonare la repository in locale o su un server
-2. Creare un file `.env` nella cartella `root` del progetto con questi comandi:
+1. Clonare la repository in locale o su un server.
+2. Eseguire nella cartella `root` il comando `npm install` per installare le dipendenze.
+3. Creare un file `.env` nella cartella `root` del progetto con questi comandi:
 
 <code>
 
@@ -19,4 +20,4 @@ Per far partire il progetto:
     DATABASE_DATABASE = mydatabase
 </code>
 
-3. Eseguire nella cartella `root` il comando `npm start` per far partire il servizio in produzione, mentre eseguire il comando `npm run start:dev` per far partire il servizio in fase di sviluppo.
+4. Eseguire nella cartella `root` il comando `npm start` per far partire il servizio in produzione, mentre eseguire il comando `npm run start:dev` per far partire il servizio in fase di sviluppo.
