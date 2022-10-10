@@ -5,6 +5,8 @@ import { SensorsModule } from './sensors/sensors.module';
 import { ParkingAreasModule } from './parking-areas/parking-areas.module';
 import { SensorsMaintainersModule } from './sensors-maintainers/sensors-maintainers.module';
 import { MaintainersRegistryModule } from './maintainers-registry/maintainers-registry.module';
+import { SensorsScrapingModule } from './sensors-scraping/sensors-scraping.module';
+import { DtoValidatorModule } from './dto-validator/dto-validator.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { MaintainersRegistryModule } from './maintainers-registry/maintainers-re
     ParkingAreasModule,
     SensorsMaintainersModule,
     MaintainersRegistryModule,
+    SensorsScrapingModule,
+    DtoValidatorModule,
   ],
   controllers: [],
   providers: [],
