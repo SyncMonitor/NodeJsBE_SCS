@@ -10,7 +10,7 @@ export class SensorMaintainer{
     @PrimaryGeneratedColumn({
         type: 'bigint'
     })
-	id: number;
+	id: string;
 
     @Column()
 	type: string;

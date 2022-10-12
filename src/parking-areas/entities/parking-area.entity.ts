@@ -9,7 +9,7 @@ export class ParkingArea{
     @PrimaryGeneratedColumn({
         type: 'bigint'
     })
-    id: number;
+    id: string;
 
     @Column()
 	latitude: string;

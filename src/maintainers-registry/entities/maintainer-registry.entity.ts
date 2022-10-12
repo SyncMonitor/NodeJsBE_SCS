@@ -9,7 +9,7 @@ export class MaintainerRegistry{
     @PrimaryGeneratedColumn({
         type: 'bigint'
     })
-	id: number;
+	id: string;
 
 	@Column({ name: 'name' })
 	ownerName: string;
