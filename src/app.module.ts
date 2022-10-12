@@ -7,9 +7,15 @@ import { SensorsMaintainersModule } from './sensors-maintainers/sensors-maintain
 import { MaintainersRegistryModule } from './maintainers-registry/maintainers-registry.module';
 import { SensorsScrapingModule } from './sensors-scraping/sensors-scraping.module';
 import { DtoValidatorModule } from './dto-validator/dto-validator.module';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
+import { AutomapperCustomModule } from './automapper-custom/automapper-custom.module';
 
 @Module({
   imports: [
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ ConfigModule ],
@@ -32,6 +38,8 @@ import { DtoValidatorModule } from './dto-validator/dto-validator.module';
     MaintainersRegistryModule,
     SensorsScrapingModule,
     DtoValidatorModule,
+    AutomapperModule,
+    AutomapperCustomModule,
   ],
   controllers: [],
   providers: [],

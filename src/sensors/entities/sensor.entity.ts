@@ -1,16 +1,17 @@
+import { AutoMap } from "@automapper/classes";
 import { ParkingArea } from "src/parking-areas/entities/parking-area.entity";
 import { SensorMaintainer } from "src/sensors-maintainers/entities/sensor-maintainer.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
     name: 'sensors'
 })
 export class Sensor{
 
-    @PrimaryGeneratedColumn({
+    @PrimaryColumn({
         type: 'bigint',
     })
-    id: number;
+    id: string;
 
     @Column()
     name: string;
@@ -29,7 +30,7 @@ export class Sensor{
     })
 	isActive: boolean;
 
-    @Column({
+    @UpdateDateColumn({
         name: 'last_survey'
     })
 	lastSurvey: Date;

@@ -5,12 +5,14 @@ import { SensorsScrapingService } from "./sensors-scraping.service"
 import { createMock } from '@golevelup/ts-jest';
 import { of } from "rxjs";
 import { DtoValidatorService } from "src/dto-validator/dto-validator.service";
+import { SensorScrapingDtoToSensorAutomapper } from "src/automapper-custom/sensor-scraping-dto-to-sensor.automapper";
 
 describe('SensorsScraping', () =>{
     let sensorsScrapingService: SensorsScrapingService;
     let httpService: HttpService;
     let sensorScrapingDto: SensorScrapingDto;
     let dtoValidatorService: DtoValidatorService;
+    let sensorScrapingDtoToSensorAutomapper: SensorScrapingDtoToSensorAutomapper;
     let responseDataScraping;
     
     beforeEach(async () => {
@@ -24,6 +26,10 @@ describe('SensorsScraping', () =>{
                 {
                     provide: DtoValidatorService,
                     useValue: createMock<DtoValidatorService>()
+                },
+                {
+                    provide: SensorScrapingDtoToSensorAutomapper,
+                    useValue: createMock<SensorScrapingDtoToSensorAutomapper>()
                 }
             ],
         }).compile();
@@ -31,15 +37,17 @@ describe('SensorsScraping', () =>{
         sensorsScrapingService = moduleRef.get<SensorsScrapingService>(SensorsScrapingService);
         httpService = moduleRef.get<HttpService>(HttpService);
         dtoValidatorService = moduleRef.get<DtoValidatorService>(DtoValidatorService);
+        sensorScrapingDtoToSensorAutomapper = moduleRef.get<SensorScrapingDtoToSensorAutomapper>
+            (SensorScrapingDtoToSensorAutomapper);
         sensorScrapingDto = {
-            id: 1,
+            id: '1',
             name: '156A2C71',
             address: 'Padova Galleria Spagna',
             lat: 45.389040,
             lng: 11.928577,
             state: 0,
             battery: '3,7V',
-            active: 1,
+            active: true,
         }
         responseDataScraping = {
             data: [
@@ -125,4 +133,5 @@ describe('SensorsScraping', () =>{
             expect(objConverted).toEqual(obj)
         })
     })
+
 })

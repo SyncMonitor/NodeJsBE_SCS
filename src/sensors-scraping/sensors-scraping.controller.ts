@@ -7,6 +7,6 @@ export class SensorsScrapingController {
 
     @Get()
     test(){
-        return this.sensorsService.getSensorsScrapingDto()
+        return this.sensorsService.scrapeAndPersistSensors()
     }
 }
