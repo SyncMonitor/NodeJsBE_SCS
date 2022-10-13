@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ParkingSpotsModule } from 'src/parking-spots/parking-spots.module';
-import { SensorsMaintainersModule } from 'src/sensors-maintainers/sensors-maintainers.module';
+import { SensorsMaintenanceModule } from 'src/sensors-maintenance/sensors-maintenance.module';
 import { Sensor } from './entities/sensor.entity';
 import { SensorsRepository } from './sensors.repository';
 import { SensorsService } from './sensors.service';
@@ -10,7 +10,7 @@ import { SensorsService } from './sensors.service';
     imports: [ 
         TypeOrmModule.forFeature([ Sensor ]),
         forwardRef(() => ParkingSpotsModule),
-        forwardRef(() => SensorsMaintainersModule),
+        forwardRef(() => SensorsMaintenanceModule),
     ],
     providers: [
         SensorsService,

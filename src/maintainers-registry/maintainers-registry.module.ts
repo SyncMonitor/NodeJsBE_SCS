@@ -1,12 +1,12 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SensorsMaintainersModule } from 'src/sensors-maintainers/sensors-maintainers.module';
+import { SensorMaintenance } from 'src/sensors-maintenance/entities/sensor-maintenance.entity';
 import { MaintainerRegistry } from './entities/maintainer-registry.entity';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([ MaintainerRegistry ]),
-        forwardRef(() => SensorsMaintainersModule),
+        forwardRef(() => SensorMaintenance),
     ]
 })
 export class MaintainersRegistryModule {}

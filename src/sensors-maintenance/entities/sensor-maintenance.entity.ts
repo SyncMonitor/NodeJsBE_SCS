@@ -3,9 +3,9 @@ import { Sensor } from "src/sensors/entities/sensor.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
-    name: 'sensors_maintainer'
+    name: 'sensors_maintenance'
 })
-export class SensorMaintainer{
+export class SensorMaintenance{
 
     @PrimaryGeneratedColumn({
         type: 'bigint'
@@ -28,7 +28,7 @@ export class SensorMaintainer{
     @JoinColumn({ name: 'fk_sensor_id' })
     sensor: Sensor;
 
-    @ManyToOne(() => MaintainerRegistry, (maintainerRegistry) => maintainerRegistry.sensorsMaintainer)
+    @ManyToOne(() => MaintainerRegistry, (maintainerRegistry) => maintainerRegistry.sensorMaintenance)
     @JoinColumn({ name: 'maintainer_id' })
     maintainer: MaintainerRegistry;
 }

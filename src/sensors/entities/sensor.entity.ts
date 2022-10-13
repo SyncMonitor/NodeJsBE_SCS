@@ -1,5 +1,5 @@
 import { ParkingSpot } from "src/parking-spots/entities/parking-spot.entity";
-import { SensorMaintainer } from "src/sensors-maintainers/entities/sensor-maintainer.entity";
+import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
 import { Column, Entity, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
@@ -37,6 +37,6 @@ export class Sensor{
     @OneToOne(() => ParkingSpot, (parkingSpot) => parkingSpot.sensor)
     parkingSpot: ParkingSpot;
 
-    @OneToOne(() => SensorMaintainer, ((sensorMaintainer) => sensorMaintainer.sensor))
-    sensorMaintainer: SensorMaintainer;
+    @OneToOne(() => SensorMaintenance, ((sensorMaintenance) => sensorMaintenance.sensor))
+    sensorMaintenance: SensorMaintenance;
 }
