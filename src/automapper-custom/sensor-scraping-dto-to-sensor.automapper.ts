@@ -40,24 +40,14 @@ export class SensorScrapingDtoToSensorAutomapper
                 ),
                 forMember(
                     destination => destination.isActive,
-                    mapFrom(source => parseInt(String(source.state)) !== 0)
+                    mapFrom(source => parseInt(String(source.active)) !== 0)
                 ),
-                forMember(
-                    destination => destination.isActive,
-                    mapFrom(source => parseInt(String(source.state)) !== 0)
-                ),
-                // forMember(
-                //     destination => destination.lastSurvey,
-                //     //mapWithArguments((source, { date }) => date)
-                //     fromValue(new Date())
-                // ),
             )
         }
     }
 
     map(sensorScrapingDto: SensorScrapingDto): Sensor{
-        return this.mapper.map(sensorScrapingDto, SensorScrapingDto, Sensor)//, 
-            //{ extraArgs: () => ({ date: new Date() }) });
+        return this.mapper.map(sensorScrapingDto, SensorScrapingDto, Sensor)
     }
 
     mapFromArray(sensorScrapingDto: SensorScrapingDto[]): Sensor[]{

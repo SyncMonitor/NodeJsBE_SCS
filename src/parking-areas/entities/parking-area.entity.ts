@@ -1,5 +1,5 @@
 import { Sensor } from "src/sensors/entities/sensor.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
     name: 'parking_area'
@@ -23,7 +23,7 @@ export class ParkingArea{
     @Column()
 	value: boolean;
 	
-	@Column({
+	@UpdateDateColumn({
         name: 'last_update'
     })
 	lastUpdate: Date;

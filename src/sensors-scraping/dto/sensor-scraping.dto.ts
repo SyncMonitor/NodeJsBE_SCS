@@ -8,11 +8,11 @@ export class SensorScrapingDto{
 
     address: string;
 
-    lat: number;
+    lat: string;
 
-    lng: number;
+    lng: string;
 
-    state: number;
+    state: boolean;
 
     battery: string;
 
@@ -22,9 +22,9 @@ export class SensorScrapingDto{
         this.id = '0';
         this.name = '';
         this.address = '';
-        this.lat = 0;
-        this.lng = 0;
-        this.state = 0;
+        this.lat = '0';
+        this.lng = '0';
+        this.state = false;
         this.battery = '';
         this.active = false;
     }
