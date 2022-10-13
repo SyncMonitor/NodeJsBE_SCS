@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { SensorScrapingDtoToParkingAreaAutomapper } from './sensor-scraping-dto-to-parking-area.automapper';
+import { SensorScrapingDtoToParkingSpotAutomapper } from './sensor-scraping-dto-to-parking-spot.automapper';
 import { SensorScrapingDtoToSensorAutomapper } from './sensor-scraping-dto-to-sensor.automapper';
 
 @Module({
     providers: [
         SensorScrapingDtoToSensorAutomapper,
-        SensorScrapingDtoToParkingAreaAutomapper,
+        SensorScrapingDtoToParkingSpotAutomapper
     ],
     exports: [
         SensorScrapingDtoToSensorAutomapper,
-        SensorScrapingDtoToParkingAreaAutomapper,
+        SensorScrapingDtoToParkingSpotAutomapper,
     ]
 })
 export class AutomapperCustomModule {}

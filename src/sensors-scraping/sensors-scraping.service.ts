@@ -8,9 +8,9 @@ import { DtoValidatorService } from 'src/dto-validator/dto-validator.service';
 import { Sensor } from 'src/sensors/entities/sensor.entity';
 import { SensorScrapingDtoToSensorAutomapper } from 'src/automapper-custom/sensor-scraping-dto-to-sensor.automapper';
 import { SensorsService } from 'src/sensors/sensors.service';
-import { ParkingArea } from 'src/parking-areas/entities/parking-area.entity';
-import { ParkingAreasService } from 'src/parking-areas/parking-areas.service';
-import { SensorScrapingDtoToParkingAreaAutomapper } from 'src/automapper-custom/sensor-scraping-dto-to-parking-area.automapper';
+import { ParkingSpotsService } from 'src/parking-spots/parking-spots.service';
+import { SensorScrapingDtoToParkingSpotAutomapper } from 'src/automapper-custom/sensor-scraping-dto-to-parking-spot.automapper';
+import { ParkingSpot } from 'src/parking-spots/entities/parking-spot.entity';
 
 @Injectable()
 export class SensorsScrapingService{
@@ -18,21 +18,21 @@ export class SensorsScrapingService{
         private readonly httpService: HttpService,
         private readonly dtoValidatorService: DtoValidatorService,
         private readonly sensorService: SensorsService,
-        private readonly parkingAreasService: ParkingAreasService,
+        private readonly parkingSpotsService: ParkingSpotsService,
         private readonly sensorScrapingDtoToSensorAutomapper: 
             SensorScrapingDtoToSensorAutomapper,
-        private readonly sensorScrapingDtoToParkingAreaAutomapper: 
-            SensorScrapingDtoToParkingAreaAutomapper
+        private readonly sensorScrapingDtoToParkingSpotAutomapper: 
+            SensorScrapingDtoToParkingSpotAutomapper
         ){}
 
     //@Cron('*/1 * * * *')
     async scrapeAndPersistSensors() {
         const sensorScrapingDto: SensorScrapingDto[] = await this.getSensorsScrapingDto();
         const sensors: Sensor[] = this.mapSensorScrapingDtoToSensor(sensorScrapingDto);
-        const parkingAreas: ParkingArea[] = this.mapSensorScrapingDtoToParkingArea(sensorScrapingDto);
+        const parkingSpots: ParkingSpot[] = this.mapSensorScrapingDtoToParkingSpot(sensorScrapingDto);
 
         const sensorsResponse = await this.saveSensorsToDatabase(sensors);
-        //const parkingAreasResponse = await this.saveParkingAreasToDatabase(parkingAreas);
+        //const parkingSpotsResponse = await this.saveParkingSpotsToDatabase(parkingSpots);
 
         return sensorsResponse;
     }
@@ -52,8 +52,8 @@ export class SensorsScrapingService{
         return this.sensorService.createOrUpdateSensors(sensors);
     }
 
-    saveParkingAreasToDatabase(parkingAreas: ParkingArea[]){
-        return this.parkingAreasService.createOrUpdateParkingAreas(parkingAreas);
+    saveParkingSpotsToDatabase(parkingSpots: ParkingSpot[]){
+        return this.parkingSpotsService.createOrUpdateParkingSpots(parkingSpots);
     }
 
     mapSensorScrapingDtoToSensor(sensorScrapingDto: SensorScrapingDto[]): Sensor[]{
@@ -61,8 +61,8 @@ export class SensorsScrapingService{
             .mapFromArray(sensorScrapingDto);
     }
 
-    mapSensorScrapingDtoToParkingArea(sensorScrapingDto: SensorScrapingDto[]): ParkingArea[]{
-        return this.sensorScrapingDtoToParkingAreaAutomapper
+    mapSensorScrapingDtoToParkingSpot(sensorScrapingDto: SensorScrapingDto[]): ParkingSpot[]{
+        return this.sensorScrapingDtoToParkingSpotAutomapper
             .mapFromArray(sensorScrapingDto);
     }
 

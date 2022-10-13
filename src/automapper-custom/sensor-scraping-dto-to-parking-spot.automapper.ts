@@ -1,12 +1,12 @@
 import { createMap, extend, forMember, fromValue, mapFrom, Mapper, MappingProfile, mapWithArguments } from "@automapper/core";
 import { AutomapperProfile, InjectMapper } from "@automapper/nestjs";
 import { Injectable } from "@nestjs/common";
-import { ParkingArea } from "src/parking-areas/entities/parking-area.entity";
+import { ParkingSpot } from "src/parking-spots/entities/parking-spot.entity";
 import { SensorScrapingDto } from "src/sensors-scraping/dto/sensor-scraping.dto";
 import { SensorScrapingDtoToSensorAutomapper } from "./sensor-scraping-dto-to-sensor.automapper";
 
 @Injectable() // TODO: figure out if make sense to test this module
-export class SensorScrapingDtoToParkingAreaAutomapper 
+export class SensorScrapingDtoToParkingSpotAutomapper 
     extends AutomapperProfile{
     constructor(
         @InjectMapper() mapper: Mapper,
@@ -18,7 +18,7 @@ export class SensorScrapingDtoToParkingAreaAutomapper
 
     get profile(): MappingProfile {
         return (mapper) => {
-            createMap(this.mapper, SensorScrapingDto, ParkingArea,
+            createMap(this.mapper, SensorScrapingDto, ParkingSpot,
                 forMember(
                     destination => destination.latitude,
                     mapFrom(source => String(source.lat))
@@ -47,11 +47,11 @@ export class SensorScrapingDtoToParkingAreaAutomapper
         }
     }
 
-    map(sensorScrapingDto: SensorScrapingDto): ParkingArea{
-        return this.mapper.map(sensorScrapingDto, SensorScrapingDto, ParkingArea)
+    map(sensorScrapingDto: SensorScrapingDto): ParkingSpot{
+        return this.mapper.map(sensorScrapingDto, SensorScrapingDto, ParkingSpot)
     }
 
-    mapFromArray(sensorScrapingDto: SensorScrapingDto[]): ParkingArea[]{
+    mapFromArray(sensorScrapingDto: SensorScrapingDto[]): ParkingSpot[]{
         return sensorScrapingDto.map((item) => this.map(item));
     }
 }

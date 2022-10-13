@@ -7,8 +7,8 @@ import { of } from "rxjs";
 import { DtoValidatorService } from "src/dto-validator/dto-validator.service";
 import { SensorScrapingDtoToSensorAutomapper } from "src/automapper-custom/sensor-scraping-dto-to-sensor.automapper";
 import { SensorsService } from "src/sensors/sensors.service";
-import { ParkingAreasService } from "src/parking-areas/parking-areas.service";
-import { SensorScrapingDtoToParkingAreaAutomapper } from "src/automapper-custom/sensor-scraping-dto-to-parking-area.automapper";
+import { ParkingSpotsService } from "src/parking-spots/parking-spots.service";
+import { SensorScrapingDtoToParkingSpotAutomapper } from "src/automapper-custom/sensor-scraping-dto-to-parking-spot.automapper";
 
 describe('SensorsScraping', () =>{
     let sensorsScrapingService: SensorsScrapingService;
@@ -16,11 +16,11 @@ describe('SensorsScraping', () =>{
     let sensorScrapingDto: SensorScrapingDto;
     let dtoValidatorService: DtoValidatorService;
     let sensorsService: SensorsService;
-    let parkingAreasService: ParkingAreasService;
+    let parkingSpotsService: ParkingSpotsService;
     let sensorScrapingDtoToSensorAutomapper: 
         SensorScrapingDtoToSensorAutomapper;
-    let sensorScrapingDtoToParkingAreaAutomapper: 
-        SensorScrapingDtoToParkingAreaAutomapper;
+    let sensorScrapingDtoToParkingSpotAutomapper: 
+        SensorScrapingDtoToParkingSpotAutomapper;
     let responseDataScraping;
     
     beforeEach(async () => {
@@ -40,16 +40,16 @@ describe('SensorsScraping', () =>{
                     useValue: createMock<SensorsService>()
                 },
                 {
-                    provide: ParkingAreasService,
-                    useValue: createMock<ParkingAreasService>()
+                    provide: ParkingSpotsService,
+                    useValue: createMock<ParkingSpotsService>()
                 },
                 {
                     provide: SensorScrapingDtoToSensorAutomapper,
                     useValue: createMock<SensorScrapingDtoToSensorAutomapper>()
                 },
                 {
-                    provide: SensorScrapingDtoToParkingAreaAutomapper,
-                    useValue: createMock<SensorScrapingDtoToParkingAreaAutomapper>()
+                    provide: SensorScrapingDtoToParkingSpotAutomapper,
+                    useValue: createMock<SensorScrapingDtoToParkingSpotAutomapper>()
                 },
             ],
         }).compile();
@@ -58,11 +58,11 @@ describe('SensorsScraping', () =>{
         httpService = moduleRef.get<HttpService>(HttpService);
         dtoValidatorService = moduleRef.get<DtoValidatorService>(DtoValidatorService);
         sensorsService = moduleRef.get<SensorsService>(SensorsService);
-        parkingAreasService = moduleRef.get<ParkingAreasService>(ParkingAreasService);
+        parkingSpotsService = moduleRef.get<ParkingSpotsService>(ParkingSpotsService);
         sensorScrapingDtoToSensorAutomapper = moduleRef.get<SensorScrapingDtoToSensorAutomapper>
             (SensorScrapingDtoToSensorAutomapper);
-        sensorScrapingDtoToParkingAreaAutomapper = moduleRef.get<SensorScrapingDtoToParkingAreaAutomapper>
-            (SensorScrapingDtoToParkingAreaAutomapper);
+        sensorScrapingDtoToParkingSpotAutomapper = moduleRef.get<SensorScrapingDtoToParkingSpotAutomapper>
+            (SensorScrapingDtoToParkingSpotAutomapper);
         sensorScrapingDto = {
             id: '1',
             name: '156A2C71',

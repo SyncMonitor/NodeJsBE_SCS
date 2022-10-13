@@ -2,9 +2,9 @@ import { Sensor } from "src/sensors/entities/sensor.entity";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
-    name: 'parking_area'
+    name: 'parking_spots'
 })
-export class ParkingArea{
+export class ParkingSpot{
 
     @PrimaryGeneratedColumn({
         type: 'bigint'

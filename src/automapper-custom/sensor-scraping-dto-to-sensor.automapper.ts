@@ -36,7 +36,7 @@ export class SensorScrapingDtoToSensorAutomapper
                 ),
                 forMember(
                     destination => destination.type,
-                    fromValue('ParkingArea')
+                    fromValue('ParkingSensor')
                 ),
                 forMember(
                     destination => destination.isActive,

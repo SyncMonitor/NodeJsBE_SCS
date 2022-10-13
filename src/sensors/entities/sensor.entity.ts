@@ -1,7 +1,6 @@
-import { AutoMap } from "@automapper/classes";
-import { ParkingArea } from "src/parking-areas/entities/parking-area.entity";
+import { ParkingSpot } from "src/parking-spots/entities/parking-spot.entity";
 import { SensorMaintainer } from "src/sensors-maintainers/entities/sensor-maintainer.entity";
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
     name: 'sensors'
@@ -35,8 +34,8 @@ export class Sensor{
     })
 	lastSurvey: Date;
 
-    @OneToOne(() => ParkingArea, (parkingArea) => parkingArea.sensor)
-    parkingArea: ParkingArea;
+    @OneToOne(() => ParkingSpot, (parkingSpot) => parkingSpot.sensor)
+    parkingSpot: ParkingSpot;
 
     @OneToOne(() => SensorMaintainer, ((sensorMaintainer) => sensorMaintainer.sensor))
     sensorMaintainer: SensorMaintainer;

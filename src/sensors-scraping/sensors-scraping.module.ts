@@ -6,14 +6,14 @@ import { SensorsScrapingController } from './sensors-scraping.controller';
 import { DtoValidatorModule } from 'src/dto-validator/dto-validator.module';
 import { AutomapperCustomModule } from 'src/automapper-custom/automapper-custom.module';
 import { SensorsModule } from 'src/sensors/sensors.module';
-import { ParkingAreasModule } from 'src/parking-areas/parking-areas.module';
+import { ParkingSpotsModule } from 'src/parking-spots/parking-spots.module';
 
 @Module({
   imports: [
     AutomapperCustomModule,
     DtoValidatorModule,
     SensorsModule,
-    ParkingAreasModule,
+    ParkingSpotsModule,
     ScheduleModule.forRoot(),
     HttpModule,
 
