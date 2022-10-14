@@ -19,7 +19,6 @@ export class ParkingArea{
     longitude: string
 
     @OneToMany(() => ParkingSpot, (parkingSpot) => parkingSpot.parkingArea)
-    @JoinColumn({ name: 'fk_parking_area_id' })
     parkingSpots: ParkingSpot[]
 
 }

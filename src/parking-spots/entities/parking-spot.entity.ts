@@ -1,6 +1,6 @@
 import { ParkingArea } from "src/parking-areas/entities/parking-area.entity";
 import { Sensor } from "src/sensors/entities/sensor.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
     name: 'parking_spots'
@@ -18,21 +18,15 @@ export class ParkingSpot{
     @Column()
 	longitude: string;
 
-    @Column()
-	address: string;
+    @ManyToMany(() => Sensor)
+    @JoinTable()
+    sensors: Sensor[];
 
-    @Column()
-	value: boolean;
-	
-	@UpdateDateColumn({
-        name: 'last_update'
-    })
-	lastUpdate: Date;
-
-    @OneToOne(() => Sensor)
-    @JoinColumn({ name: 'fk_sensor_id' })
-    sensor: Sensor;
-
-    @ManyToOne(() => ParkingArea, (parkingArea) => parkingArea.parkingSpots)
+    @ManyToOne(
+            () => ParkingArea, 
+            (parkingArea) => parkingArea.parkingSpots,
+            { nullable: false }
+        )
+    @JoinColumn({ name: 'fk_parking_area_id' })
     parkingArea: ParkingArea
 }

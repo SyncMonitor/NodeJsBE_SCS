@@ -34,9 +34,6 @@ export class Sensor{
     })
 	lastSurvey: Date;
 
-    @OneToOne(() => ParkingSpot, (parkingSpot) => parkingSpot.sensor)
-    parkingSpot: ParkingSpot;
-
     @OneToOne(() => SensorMaintenance, ((sensorMaintenance) => sensorMaintenance.sensor))
     sensorMaintenance: SensorMaintenance;
 }

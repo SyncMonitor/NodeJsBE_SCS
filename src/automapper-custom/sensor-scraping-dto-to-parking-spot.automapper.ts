@@ -27,22 +27,6 @@ export class SensorScrapingDtoToParkingSpotAutomapper
                     destination => destination.longitude,
                     mapFrom(source => String(source.lng))
                 ),
-                forMember(
-                    destination => destination.address,
-                    mapFrom(source => String(source.address))
-                ),
-                forMember(
-                    destination => destination.value,
-                    mapFrom(source => parseInt(String(source.state)) !== 0)
-                ),
-                forMember(
-                    destination => destination.address,
-                    mapFrom(source => String(source.address))
-                ),
-                forMember(
-                    destination => destination.sensor,
-                    mapFrom(source => this.sensorScrapingDtoToSensorAutomapper.map(source))
-                ),
             )
         }
     }

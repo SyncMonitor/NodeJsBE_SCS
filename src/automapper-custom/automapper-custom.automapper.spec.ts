@@ -58,9 +58,6 @@ describe('AutomapperCustom', () => {
             parkingSpot = {
                 latitude: '45.389040',
                 longitude: '11.928577', 
-                address: 'Padova Galleria Spagna',
-                value: false,
-                sensor: sensorConverted 
             }
 
             const parkingSpotCoverted: ParkingSpot = 
