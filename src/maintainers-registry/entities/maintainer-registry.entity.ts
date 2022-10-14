@@ -27,5 +27,5 @@ export class MaintainerRegistry{
 	email: string;
 
     @OneToMany(() => SensorMaintenance, (sensorMaintenance) => sensorMaintenance.maintainer)
-    sensorMaintenance: SensorMaintenance[];
+    sensorsMaintenance: SensorMaintenance[];
 }

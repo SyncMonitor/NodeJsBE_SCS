@@ -28,7 +28,7 @@ export class SensorMaintenance{
     @JoinColumn({ name: 'fk_sensor_id' })
     sensor: Sensor;
 
-    @ManyToOne(() => MaintainerRegistry, (maintainerRegistry) => maintainerRegistry.sensorMaintenance)
+    @ManyToOne(() => MaintainerRegistry, (maintainerRegistry) => maintainerRegistry.sensorsMaintenance)
     @JoinColumn({ name: 'maintainer_id' })
     maintainer: MaintainerRegistry;
 }

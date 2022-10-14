@@ -10,6 +10,7 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { AutomapperCustomModule } from './automapper-custom/automapper-custom.module';
 import { SensorsMaintenanceModule } from './sensors-maintenance/sensors-maintenance.module';
+import { ParkingAreasModule } from './parking-areas/parking-areas.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { SensorsMaintenanceModule } from './sensors-maintenance/sensors-maintena
     DtoValidatorModule,
     AutomapperModule,
     AutomapperCustomModule,
+    ParkingAreasModule,
   ],
   controllers: [],
   providers: [],
