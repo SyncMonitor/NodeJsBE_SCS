@@ -1,6 +1,6 @@
-import { ParkingSpot } from "src/parking-spots/entities/parking-spot.entity";
+import { MaintainerRegistry } from "src/maintainers-registry/entities/maintainer-registry.entity";
 import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
-import { Column, Entity, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
     name: 'sensors'
@@ -34,6 +34,15 @@ export class Sensor{
     })
 	lastSurvey: Date;
 
-    @OneToOne(() => SensorMaintenance, ((sensorMaintenance) => sensorMaintenance.sensor))
-    sensorMaintenance: SensorMaintenance;
+    // TODO: figure out if here needs ManyToMany relashionship with ParkingSpot entity
+
+    @ManyToOne(
+            () => MaintainerRegistry, 
+            ((maintainerRegistry) => maintainerRegistry.sensors),
+        )
+    @JoinColumn({ name: 'fk_maintainer_id' })
+    maintainerRegistry: MaintainerRegistry;
+
+    @OneToOne(() => SensorMaintenance, (sensorMaintenance) => sensorMaintenance.sensor)
+    sensorMaintenance: SensorMaintenance
 }

@@ -1,4 +1,5 @@
 import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
+import { Sensor } from "src/sensors/entities/sensor.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
@@ -26,6 +27,6 @@ export class MaintainerRegistry{
     @Column({ name: 'mail' })
 	email: string;
 
-    @OneToMany(() => SensorMaintenance, (sensorMaintenance) => sensorMaintenance.maintainer)
-    sensorsMaintenance: SensorMaintenance[];
+    @OneToMany(() => Sensor, (sensor) => sensor.maintainerRegistry)
+    sensors: Sensor[];
 }
