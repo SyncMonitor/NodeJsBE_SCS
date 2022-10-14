@@ -11,6 +11,7 @@ import { classes } from '@automapper/classes';
 import { AutomapperCustomModule } from './automapper-custom/automapper-custom.module';
 import { SensorsMaintenanceModule } from './sensors-maintenance/sensors-maintenance.module';
 import { ParkingAreasModule } from './parking-areas/parking-areas.module';
+import { MeasurementsModule } from './measurements/measurements.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ParkingAreasModule } from './parking-areas/parking-areas.module';
     AutomapperModule,
     AutomapperCustomModule,
     ParkingAreasModule,
+    MeasurementsModule,
   ],
   controllers: [],
   providers: [],

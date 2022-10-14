@@ -1,6 +1,7 @@
 import { MaintainerRegistry } from "src/maintainers-registry/entities/maintainer-registry.entity";
+import { Measurement } from "src/measurements/entities/interfaces/measurement.class";
 import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({
     name: 'sensors'
@@ -45,4 +46,8 @@ export class Sensor{
 
     @OneToOne(() => SensorMaintenance, (sensorMaintenance) => sensorMaintenance.sensor)
     sensorMaintenance: SensorMaintenance
+
+    // TODO: find a way to define a plymorphic relationship, to enable this:
+    // @OneToMany(() => Measurement, (measurement) => measurement.sensor)
+    // measurement: Measurement
 }
