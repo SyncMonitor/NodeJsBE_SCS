@@ -7,6 +7,7 @@ import { DtoValidatorModule } from 'src/dto-validator/dto-validator.module';
 import { AutomapperCustomModule } from 'src/automapper-custom/automapper-custom.module';
 import { SensorsModule } from 'src/sensors/sensors.module';
 import { ParkingSpotsModule } from 'src/parking-spots/parking-spots.module';
+import { MeasurementsModule } from 'src/measurements/measurements.module';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { ParkingSpotsModule } from 'src/parking-spots/parking-spots.module';
     ParkingSpotsModule,
     ScheduleModule.forRoot(),
     HttpModule,
-
+    MeasurementsModule,
   ],
   providers: [SensorsScrapingService],
   controllers: [SensorsScrapingController]

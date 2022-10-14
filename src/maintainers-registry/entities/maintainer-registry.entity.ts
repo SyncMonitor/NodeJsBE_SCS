@@ -2,9 +2,7 @@ import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maint
 import { Sensor } from "src/sensors/entities/sensor.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({
-    name: 'maintainer_registry'
-})
+@Entity({ name: 'maintainers_registry' })
 export class MaintainerRegistry{
     
     @PrimaryGeneratedColumn({

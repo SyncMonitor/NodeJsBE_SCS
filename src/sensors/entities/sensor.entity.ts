@@ -3,9 +3,7 @@ import { Measurement } from "src/measurements/entities/interfaces/measurement.cl
 import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
-@Entity({
-    name: 'sensors'
-})
+@Entity({ name: 'sensors' })
 export class Sensor{
 
     @PrimaryColumn({
@@ -49,5 +47,5 @@ export class Sensor{
 
     // TODO: find a way to define a plymorphic relationship, to enable this:
     // @OneToMany(() => Measurement, (measurement) => measurement.sensor)
-    // measurement: Measurement
+    // measurements: Measurement[]
 }

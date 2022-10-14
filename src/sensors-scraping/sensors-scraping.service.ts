@@ -11,6 +11,7 @@ import { SensorsService } from 'src/sensors/sensors.service';
 import { ParkingSpotsService } from 'src/parking-spots/parking-spots.service';
 import { SensorScrapingDtoToParkingSpotAutomapper } from 'src/automapper-custom/sensor-scraping-dto-to-parking-spot.automapper';
 import { ParkingSpot } from 'src/parking-spots/entities/parking-spot.entity';
+import { ParkingSensor } from 'src/measurements/entities/parking-sensor.entity';
 
 @Injectable()
 export class SensorsScrapingService{
@@ -22,11 +23,12 @@ export class SensorsScrapingService{
         private readonly sensorScrapingDtoToSensorAutomapper: 
             SensorScrapingDtoToSensorAutomapper,
         private readonly sensorScrapingDtoToParkingSpotAutomapper: 
-            SensorScrapingDtoToParkingSpotAutomapper
+            SensorScrapingDtoToParkingSpotAutomapper,
         ){}
 
     //@Cron('*/1 * * * *')
     async scrapeAndPersistSensors() {
+        
         const sensorScrapingDto: SensorScrapingDto[] = await this.getSensorsScrapingDto();
         const sensors: Sensor[] = this.mapSensorScrapingDtoToSensor(sensorScrapingDto);
         const parkingSpots: ParkingSpot[] = this.mapSensorScrapingDtoToParkingSpot(sensorScrapingDto);

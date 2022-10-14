@@ -1,7 +1,7 @@
 import { ParkingSpot } from "src/parking-spots/entities/parking-spot.entity";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({ name: 'parking_areas' })
 export class ParkingArea{
 
     @PrimaryGeneratedColumn({
