@@ -12,11 +12,11 @@ export class MaintainerRegistry{
     })
 	id: string;
 
-	@Column({ name: 'name' })
-	ownerName: string;
+	@Column()
+	name: string;
 
-	@Column({ name: 'surname' })
-	ownerSurname: string;
+	@Column()
+	surname: string;
 
     @Column()
 	company: string;
