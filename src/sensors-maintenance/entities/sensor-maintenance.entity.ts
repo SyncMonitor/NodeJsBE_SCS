@@ -12,9 +12,6 @@ export class SensorMaintenance{
     })
 	id: string;
 
-    @Column()
-	type: string;
-
 	@Column({ name: 'to_be_repaired' })
 	toBeRepaired: boolean;
 
