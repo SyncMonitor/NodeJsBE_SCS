@@ -1,5 +1,5 @@
 import { Sensor } from "src/sensors/entities/sensor.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: 'parking_sensors' })
 export class ParkingSensor{
@@ -17,7 +17,10 @@ export class ParkingSensor{
     @Column()
     longitude: string;
 
-    @CreateDateColumn()
+    @Column()
+    value: boolean;
+
+    @UpdateDateColumn()
     timestamp: Date;
 
     @OneToOne(

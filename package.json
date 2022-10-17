@@ -39,6 +39,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.10",
+    "underscore": "^1.13.6",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {

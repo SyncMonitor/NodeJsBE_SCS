@@ -1,23 +1,23 @@
 import { classes } from "@automapper/classes";
 import { createMapper } from "@automapper/core";
-import { ParkingSpot } from "src/parking-spots/entities/parking-spot.entity";
+import { ParkingSensor } from "src/parking-sensors/entities/parking-sensor.entity";
 import { Sensor } from "src/sensors/entities/sensor.entity";
-import { SensorScrapingDtoToParkingSpotAutomapper } from "./sensor-scraping-dto-to-parking-spot.automapper";
+import { SensorScrapingDtoToParkingSensorAutomapper } from "./sensor-scraping-dto-to-parking-sensor.automapper";
 import { SensorScrapingDtoToSensorAutomapper } from "./sensor-scraping-dto-to-sensor.automapper";
 
 describe('AutomapperCustom', () => {
     let sensorScrapingDtoToSensorAutomapper: SensorScrapingDtoToSensorAutomapper;
-    let sensorScrapingDtoToParkingSpotAutomapper: SensorScrapingDtoToParkingSpotAutomapper;
+    let sensorScrapingDtoToParkingSensorAutomapper: SensorScrapingDtoToParkingSensorAutomapper;
     let sensorScrapingDto; 
     let sensor: Partial<Sensor>; 
-    let parkingSpot: Partial<ParkingSpot>; 
+    let parkingSensor: Partial<ParkingSensor>; 
 
     sensorScrapingDtoToSensorAutomapper = 
         new SensorScrapingDtoToSensorAutomapper(createMapper({
             strategyInitializer: classes(),
         }));
-    sensorScrapingDtoToParkingSpotAutomapper = 
-        new SensorScrapingDtoToParkingSpotAutomapper(
+        sensorScrapingDtoToParkingSensorAutomapper = 
+        new SensorScrapingDtoToParkingSensorAutomapper(
             createMapper({
                 strategyInitializer: classes(),
             }),
@@ -52,18 +52,21 @@ describe('AutomapperCustom', () => {
         })
     })
 
-    describe('SensorScrapingDtoToParkingSpotAutomapper', () => {
+    describe('sensorScrapingDtoToParkingSensorAutomapper', () => {
         it('sensor object mapped sould be consistent with dto', () => {
             const sensorConverted: Sensor = sensorScrapingDtoToSensorAutomapper.map(sensorScrapingDto);
-            parkingSpot = {
+            parkingSensor = {
+                address: 'Padova Galleria Spagna',
                 latitude: '45.389040',
                 longitude: '11.928577', 
+                value: false,
+                sensor: sensorConverted
             }
 
-            const parkingSpotCoverted: ParkingSpot = 
-                sensorScrapingDtoToParkingSpotAutomapper.map(sensorScrapingDto);
+            const parkingSensorCoverted: ParkingSensor = 
+            sensorScrapingDtoToParkingSensorAutomapper.map(sensorScrapingDto);
 
-            expect(parkingSpotCoverted).toEqual(parkingSpot);
+            expect(parkingSensorCoverted).toEqual(parkingSensor);
         })
     })
 })

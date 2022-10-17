@@ -2,12 +2,11 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SensorsScrapingService } from './sensors-scraping.service';
-import { SensorsScrapingController } from './sensors-scraping.controller';
 import { DtoValidatorModule } from 'src/dto-validator/dto-validator.module';
 import { AutomapperCustomModule } from 'src/automapper-custom/automapper-custom.module';
 import { SensorsModule } from 'src/sensors/sensors.module';
 import { ParkingSpotsModule } from 'src/parking-spots/parking-spots.module';
-import { MeasurementsModule } from 'src/measurements/measurements.module';
+import { ParkingSensorsModule } from 'src/parking-sensors/parking-sensors.module';
 
 @Module({
   imports: [
@@ -17,9 +16,8 @@ import { MeasurementsModule } from 'src/measurements/measurements.module';
     ParkingSpotsModule,
     ScheduleModule.forRoot(),
     HttpModule,
-    MeasurementsModule,
+    ParkingSensorsModule,
   ],
   providers: [SensorsScrapingService],
-  controllers: [SensorsScrapingController]
 })
 export class SensorsScrapingModule {}
