@@ -1,34 +1,24 @@
-import { Sensor } from "src/sensors/entities/sensor.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ParkingSpot } from "src/parking-spots/entities/parking-spot.entity";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({
-    name: 'parking_area'
-})
+@Entity({ name: 'parking_areas' })
 export class ParkingArea{
 
     @PrimaryGeneratedColumn({
         type: 'bigint'
     })
-    id: number;
+    id: string;
 
     @Column()
-	latitude: string;
+    address: string
 
     @Column()
-	longitude: string;
+    latitude: string
 
     @Column()
-	address: string;
+    longitude: string
 
-    @Column()
-	value: boolean;
-	
-	@Column({
-        name: 'last_update'
-    })
-	lastUpdate: Date;
+    @OneToMany(() => ParkingSpot, (parkingSpot) => parkingSpot.parkingArea)
+    parkingSpots: ParkingSpot[]
 
-    @OneToOne(() => Sensor)
-    @JoinColumn({ name: 'fk_sensor_id' })
-    sensor: Sensor;
 }

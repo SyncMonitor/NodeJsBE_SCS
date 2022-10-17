@@ -1,21 +1,20 @@
-import { SensorMaintainer } from "src/sensors-maintainers/entities/sensor-maintainer.entity";
+import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
+import { Sensor } from "src/sensors/entities/sensor.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({
-    name: 'maintainer_registry'
-})
+@Entity({ name: 'maintainers_registry' })
 export class MaintainerRegistry{
     
     @PrimaryGeneratedColumn({
         type: 'bigint'
     })
-	id: number;
+	id: string;
 
-	@Column({ name: 'name' })
-	ownerName: string;
+	@Column()
+	name: string;
 
-	@Column({ name: 'surname' })
-	ownerSurname: string;
+	@Column()
+	surname: string;
 
     @Column()
 	company: string;
@@ -26,6 +25,6 @@ export class MaintainerRegistry{
     @Column({ name: 'mail' })
 	email: string;
 
-    @OneToMany(() => SensorMaintainer, (sensorMaintainer) => sensorMaintainer.maintainer)
-    sensorsMaintainer: SensorMaintainer[];
+    @OneToMany(() => Sensor, (sensor) => sensor.maintainerRegistry)
+    sensors: Sensor[];
 }

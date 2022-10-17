@@ -1,16 +1,15 @@
-import { ParkingArea } from "src/parking-areas/entities/parking-area.entity";
-import { SensorMaintainer } from "src/sensors-maintainers/entities/sensor-maintainer.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { MaintainerRegistry } from "src/maintainers-registry/entities/maintainer-registry.entity";
+import { Measurement } from "src/measurements/entities/interfaces/measurement.class";
+import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
-@Entity({
-    name: 'sensors'
-})
+@Entity({ name: 'sensors' })
 export class Sensor{
 
-    @PrimaryGeneratedColumn({
+    @PrimaryColumn({
         type: 'bigint',
     })
-    id: number;
+    id: string;
 
     @Column()
     name: string;
@@ -29,14 +28,24 @@ export class Sensor{
     })
 	isActive: boolean;
 
-    @Column({
+    @UpdateDateColumn({
         name: 'last_survey'
     })
 	lastSurvey: Date;
 
-    @OneToOne(() => ParkingArea, (parkingArea) => parkingArea.sensor)
-    parkingArea: ParkingArea;
+    // TODO: figure out if here needs ManyToMany relashionship with ParkingSpot entity
 
-    @OneToOne(() => SensorMaintainer, ((sensorMaintainer) => sensorMaintainer.sensor))
-    sensorMaintainer: SensorMaintainer;
+    @ManyToOne(
+            () => MaintainerRegistry, 
+            ((maintainerRegistry) => maintainerRegistry.sensors),
+        )
+    @JoinColumn({ name: 'fk_maintainer_id' })
+    maintainerRegistry: MaintainerRegistry;
+
+    @OneToOne(() => SensorMaintenance, (sensorMaintenance) => sensorMaintenance.sensor)
+    sensorMaintenance: SensorMaintenance
+
+    // TODO: find a way to define a plymorphic relationship, to enable this:
+    // @OneToMany(() => Measurement, (measurement) => measurement.sensor)
+    // measurements: Measurement[]
 }
