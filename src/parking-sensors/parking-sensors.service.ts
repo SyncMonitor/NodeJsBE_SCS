@@ -14,7 +14,6 @@ export class ParkingSensorsService {
         let response = this.parkingSensorsRepository.upsert(parkingSensors, {
             conflictPaths: [ 'sensor' ],
             skipUpdateIfNoValuesChanged: true,
-            
         });
         let insertedOrUpdatedElementsIds = (await response).identifiers;
 

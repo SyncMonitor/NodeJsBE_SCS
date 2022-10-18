@@ -9,7 +9,6 @@ export class SensorsService {
         ){}
 
     createOrUpdateSensors(sensors: Sensor[]){
-
         return this.sensorsRepository.save(sensors);
     }
 }
