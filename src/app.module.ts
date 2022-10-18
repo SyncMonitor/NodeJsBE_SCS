@@ -13,6 +13,9 @@ import { SensorsMaintenanceModule } from './sensors-maintenance/sensors-maintena
 import { ParkingAreasModule } from './parking-areas/parking-areas.module';
 import { MeasurementsModule } from './measurements/measurements.module';
 import { ParkingSensorsModule } from './parking-sensors/parking-sensors.module';
+import { LoggerFileModule } from './logger-file/logger-file.module';
+import { SensorSubscriber } from './sensors/entities/sensor.subscriber';
+import { ParkingSensorSubscriber } from './parking-sensors/entities/parking-sensor.subscriber';
 
 @Module({
   imports: [
@@ -32,6 +35,10 @@ import { ParkingSensorsModule } from './parking-sensors/parking-sensors.module';
         entities: [],
         synchronize: true,
         autoLoadEntities: true,
+        subscribers: [
+          SensorSubscriber,
+          ParkingSensorSubscriber,
+        ],
       }),
       inject: [ ConfigService ],
     }),
@@ -46,6 +53,7 @@ import { ParkingSensorsModule } from './parking-sensors/parking-sensors.module';
     ParkingAreasModule,
     MeasurementsModule,
     ParkingSensorsModule,
+    LoggerFileModule,
   ],
   controllers: [],
   providers: [],

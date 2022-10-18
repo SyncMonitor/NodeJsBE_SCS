@@ -7,6 +7,7 @@ import { AutomapperCustomModule } from 'src/automapper-custom/automapper-custom.
 import { SensorsModule } from 'src/sensors/sensors.module';
 import { ParkingSpotsModule } from 'src/parking-spots/parking-spots.module';
 import { ParkingSensorsModule } from 'src/parking-sensors/parking-sensors.module';
+import { SensorsScrapingController } from './sensors-scraping.controller';
 
 @Module({
   imports: [
@@ -19,5 +20,6 @@ import { ParkingSensorsModule } from 'src/parking-sensors/parking-sensors.module
     ParkingSensorsModule,
   ],
   providers: [SensorsScrapingService],
+  controllers: [SensorsScrapingController],
 })
 export class SensorsScrapingModule {}

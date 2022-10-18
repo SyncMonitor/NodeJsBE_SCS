@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { SensorScrapingDto } from './dto/sensor-scraping.dto';
 import { firstValueFrom, from } from 'rxjs';
@@ -14,6 +14,8 @@ import { ParkingSensor } from 'src/parking-sensors/entities/parking-sensor.entit
 
 @Injectable()
 export class SensorsScrapingService{
+    private readonly logger = new Logger(SensorsScrapingService.name);
+
     constructor(
         private readonly httpService: HttpService,
         private readonly dtoValidatorService: DtoValidatorService,
@@ -25,9 +27,10 @@ export class SensorsScrapingService{
             SensorScrapingDtoToParkingSensorAutomapper,
         ){}
 
-    @Cron('*/2 * * * *')
+    //@Cron('*/1 * * * *')
     async scrapeAndPersistSensors() {
-        console.log('done')
+        this.logger.log('Started scraping sensors...');
+
         const sensorScrapingDto: SensorScrapingDto[] = await this.getSensorsScrapingDto();
         const sensors: Sensor[] = this.mapSensorScrapingDtoToSensor(sensorScrapingDto);
         const parkingSensors: ParkingSensor[] = this.mapSensorScrapingDtoToParkingSensor(sensorScrapingDto);
@@ -35,7 +38,7 @@ export class SensorsScrapingService{
         const sensorsResponse = await this.saveSensorsToDatabase(sensors);
         const parkingSensorsResponse = await this.saveParkingSensorsToDatabase(parkingSensors);
         
-        return parkingSensorsResponse;
+        this.logger.log('Finished scraping sensors');
     }
 
     async getSensorsScrapingDto(): Promise<SensorScrapingDto[]>{
