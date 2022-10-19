@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SensorsModule } from './sensors/sensors.module';
@@ -16,6 +16,9 @@ import { ParkingSensorsModule } from './parking-sensors/parking-sensors.module';
 import { LoggerFileModule } from './logger-file/logger-file.module';
 import { SensorSubscriber } from './sensors/entities/sensor.subscriber';
 import { ParkingSensorSubscriber } from './parking-sensors/entities/parking-sensor.subscriber';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { TypeOrmExceptionFilter } from './exception-filters/typeorm.exception-filter';
+import { ExceptionFiltersModule } from './exception-filters/exception-filters.module';
 
 @Module({
   imports: [
@@ -54,8 +57,18 @@ import { ParkingSensorSubscriber } from './parking-sensors/entities/parking-sens
     MeasurementsModule,
     ParkingSensorsModule,
     LoggerFileModule,
+    ExceptionFiltersModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: TypeOrmExceptionFilter,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+],
 })
 export class AppModule {}
