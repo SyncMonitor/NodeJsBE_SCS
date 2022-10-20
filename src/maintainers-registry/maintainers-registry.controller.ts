@@ -3,7 +3,7 @@ import { MaintainerRegistry } from './entities/maintainer-registry.entity';
 import { MaintainersRegistryService } from './maintainers-registry.service';
 import { isEmpty } from 'underscore'
 
-@Controller('maintainer')
+@Controller('maintainers')
 export class MaintainersRegistryController {
     constructor(private readonly maintainersRegistryService: 
         MaintainersRegistryService){}

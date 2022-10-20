@@ -11,4 +11,16 @@ export class SensorsService {
     createOrUpdateSensors(sensors: Sensor[]){
         return this.sensorsRepository.save(sensors);
     }
+
+    getAllSensors(){
+        return this.sensorsRepository.find();
+    }
+
+    getSensorById(id: string){
+        return this.sensorsRepository.findOne({
+            where: {
+                id: id
+            }
+        })
+    }
 }
