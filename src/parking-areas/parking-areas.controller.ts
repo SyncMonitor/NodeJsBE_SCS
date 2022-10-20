@@ -5,7 +5,7 @@ import { isEmpty } from 'underscore';
 import { Response } from 'express'
 import { QueryFailedError } from 'typeorm';
 
-@Controller('parking-area')
+@Controller('parking-areas')
 export class ParkingAreasController {
     constructor(private readonly parkingAreasService: 
         ParkingAreasService){}
