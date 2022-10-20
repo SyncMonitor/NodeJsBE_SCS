@@ -10,7 +10,7 @@ export class ParkingAreasController {
     constructor(private readonly parkingAreasService: 
         ParkingAreasService){}
 
-    @Get('all')
+    @Get()
     getAllParkingAreas(){
         return this.parkingAreasService.getAllParkingAreas();
     }

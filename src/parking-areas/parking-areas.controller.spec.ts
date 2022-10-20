@@ -35,7 +35,7 @@ describe('ParkingAreasController', () => {
   }
 
   describe('getParkingAreaById', () => {
-    it('should response the parking area if parking area id is found', async () => {
+    it('should response with the parking area if parking area id is found', async () => {
       const response = httpMocks.createResponse();
       jest.spyOn(parkingAreasService, 'getParkingAreaById').mockImplementation(
         () => Promise.resolve(parkingAreaResponse));

@@ -1,3 +1,4 @@
+import { IsEmail, IsPhoneNumber, IsString } from "class-validator";
 import { SensorMaintenance } from "src/sensors-maintenance/entities/sensor-maintenance.entity";
 import { Sensor } from "src/sensors/entities/sensor.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -11,18 +12,23 @@ export class MaintainerRegistry{
 	id: string;
 
 	@Column()
+	@IsString()
 	name: string;
 
 	@Column()
+	@IsString()
 	surname: string;
 
-    @Column()
+    @Column({ unique: true })
+	@IsString()
 	company: string;
 
-	@Column()
+	@Column({ unique: true })
+	@IsString()
 	phone: string;
 
-    @Column({ name: 'mail' })
+    @Column({ unique: true })
+	@IsEmail()
 	email: string;
 
     @OneToMany(() => Sensor, (sensor) => sensor.maintainerRegistry)
