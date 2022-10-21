@@ -3,12 +3,13 @@ import { ParkingArea } from './entities/parking-area.entity';
 import { ParkingAreasService } from './parking-areas.service';
 import { isEmpty } from 'underscore';
 import { Response } from 'express'
-import { QueryFailedError } from 'typeorm';
+import { ParkingSpotsService } from 'src/parking-spots/parking-spots.service';
 
 @Controller('parking-areas')
 export class ParkingAreasController {
-    constructor(private readonly parkingAreasService: 
-        ParkingAreasService){}
+    constructor(
+            private readonly parkingAreasService: ParkingAreasService,
+        ){}
 
     @Get()
     getAllParkingAreas(){

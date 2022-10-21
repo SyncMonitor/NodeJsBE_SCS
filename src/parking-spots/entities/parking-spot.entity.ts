@@ -1,3 +1,4 @@
+import { IsNotEmpty, IsNumberString } from "class-validator";
 import { ParkingArea } from "src/parking-areas/entities/parking-area.entity";
 import { Sensor } from "src/sensors/entities/sensor.entity";
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
@@ -12,9 +13,13 @@ export class ParkingSpot{
     id: string;
 
     @Column()
+    @IsNumberString()
+    @IsNotEmpty()
 	latitude: string;
 
     @Column()
+    @IsNumberString()
+    @IsNotEmpty()
 	longitude: string;
 
     @ManyToMany(() => Sensor)
