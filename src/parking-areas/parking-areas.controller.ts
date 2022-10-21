@@ -17,16 +17,13 @@ export class ParkingAreasController {
     }
 
     @Get(':id')
-    async getParkingAreaById(
-            @Param('id') id: string,
-            @Res({ passthrough: true }) res: Response
-        ){
+    async getParkingAreaById(@Param('id') id: string){
         const parkingArea: ParkingArea = await this.parkingAreasService.getParkingAreaById(id);
 
         if(!isEmpty(parkingArea))
             return parkingArea 
         else
-            res.status(HttpStatus.NOT_FOUND).send()
+            throw new HttpException('', HttpStatus.NOT_FOUND);
     }
 
     @Post()
