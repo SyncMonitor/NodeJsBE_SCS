@@ -19,6 +19,7 @@ import { ParkingSensorSubscriber } from './parking-sensors/entities/parking-sens
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { TypeOrmExceptionFilter } from './exception-filters/typeorm.exception-filter';
 import { ExceptionFiltersModule } from './exception-filters/exception-filters.module';
+import { ExceptionsModule } from './exceptions/exceptions.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { ExceptionFiltersModule } from './exception-filters/exception-filters.mo
     ParkingSensorsModule,
     LoggerFileModule,
     ExceptionFiltersModule,
+    ExceptionsModule,
   ],
   controllers: [],
   providers: [

@@ -11,7 +11,7 @@ export class ParkingAreasService {
         return this.parkingAreasRepository.find();
     }
 
-    getParkingAreaById(id: string){
+    public getParkingAreaById(id: string){
         return this.parkingAreasRepository.findOne({
             where: {
                 id: id
