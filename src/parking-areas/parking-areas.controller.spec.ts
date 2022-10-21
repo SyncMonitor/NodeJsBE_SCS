@@ -1,16 +1,14 @@
 import { createMock } from '@golevelup/ts-jest';
+import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { response, Response } from 'express';
 import { ParkingAreasController } from './parking-areas.controller';
 import { ParkingAreasService } from './parking-areas.service';
-import { isEmpty } from 'underscore';
-import  * as httpMocks  from 'node-mocks-http'
-import { QueryFailedError } from 'typeorm';
 
 describe('ParkingAreasController', () => {
   let parkingAreasController: ParkingAreasController;
   let parkingAreasService: ParkingAreasService;
-  let parkingAreaResponse;
+  let parkingArea;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,7 +25,7 @@ describe('ParkingAreasController', () => {
     parkingAreasService = module.get<ParkingAreasService>(ParkingAreasService);
   });
 
-  parkingAreaResponse = {
+  parkingArea = {
     id: '1',
     address: 'Via Forcellini',
     latitude: '47.390018',
@@ -36,33 +34,39 @@ describe('ParkingAreasController', () => {
 
   describe('getParkingAreaById', () => {
     it('should response with the parking area if parking area id is found', async () => {
-      const response = httpMocks.createResponse();
-      jest.spyOn(parkingAreasService, 'getParkingAreaById').mockImplementation(
-        () => Promise.resolve(parkingAreaResponse));
+      jest.spyOn(parkingAreasService, 'getParkingAreaById')
+      .mockImplementation(() => Promise.resolve(parkingArea));
 
-      const handlerResponse = parkingAreasController.getParkingAreaById('1', response);
+      const response = parkingAreasController.getParkingAreaById('1');
 
-      await expect(handlerResponse).resolves.toEqual(parkingAreaResponse);
+      await expect(response).resolves.toEqual(parkingArea);
+    })
+
+    it('should throw an HttpException if parking area was not found', async () => {
+      jest.spyOn(parkingAreasService, 'getParkingAreaById')
+      .mockImplementation(() => Promise.resolve(null));
+
+      const response = parkingAreasController.getParkingAreaById('1');
+
+      await expect(response).rejects.toThrow(HttpException);
     })
   });
 
   describe('createParkingArea', () => {
     it('should return the created parking area if it was created', async () => {
-      jest.spyOn(parkingAreasService, 'createParkingArea').mockImplementation(
-        () => Promise.resolve(parkingAreaResponse)
-      );
+      jest.spyOn(parkingAreasService, 'createParkingArea')
+      .mockImplementation(() => Promise.resolve(parkingArea));
 
-      const handlerResponse = parkingAreasController.createParkingArea(parkingAreaResponse);
+      const response = parkingAreasController.createParkingArea(parkingArea);
 
-      await expect(handlerResponse).resolves.toEqual(parkingAreaResponse);
+      await expect(response).resolves.toEqual(parkingArea);
     })
 
     it('should throw an error if the parking area was not created', async () => {
-      jest.spyOn(parkingAreasService, 'createParkingArea').mockImplementation(
-        () => Promise.reject(new Error('database error'))
-      );
+      jest.spyOn(parkingAreasService, 'createParkingArea')
+        .mockImplementation(() => Promise.reject(new Error('database error')));
 
-      const handlerResponse = parkingAreasController.createParkingArea(parkingAreaResponse);
+      const handlerResponse = parkingAreasController.createParkingArea(parkingArea);
 
       await expect(handlerResponse).rejects.toThrow(Error);
     })
