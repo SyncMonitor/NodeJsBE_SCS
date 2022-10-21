@@ -36,4 +36,15 @@ export class ParkingSensorsService {
         else    
             return []
     }
+
+    getAllParkingSensorsBySensorId(id: string){
+        return this.parkingSensorsRepository.find({
+            relations: {
+                sensor: true,
+            },
+            where: {
+                id: id
+            }
+        });
+    }
 }
