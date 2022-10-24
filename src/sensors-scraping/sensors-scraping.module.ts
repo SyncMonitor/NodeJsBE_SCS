@@ -8,6 +8,7 @@ import { SensorsModule } from 'src/sensors/sensors.module';
 import { ParkingSpotsModule } from 'src/parking-spots/parking-spots.module';
 import { ParkingSensorsModule } from 'src/parking-sensors/parking-sensors.module';
 import { SensorsScrapingController } from './sensors-scraping.controller';
+import { SensorsMaintenanceModule } from 'src/sensors-maintenance/sensors-maintenance.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SensorsScrapingController } from './sensors-scraping.controller';
     ScheduleModule.forRoot(),
     HttpModule,
     ParkingSensorsModule,
+    SensorsMaintenanceModule,
   ],
   providers: [SensorsScrapingService],
   controllers: [SensorsScrapingController],

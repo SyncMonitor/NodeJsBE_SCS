@@ -11,6 +11,8 @@ import { SensorsService } from 'src/sensors/sensors.service';
 import { SensorScrapingDtoToParkingSensorAutomapper } from 'src/automapper-custom/sensor-scraping-dto-to-parking-sensor.automapper';
 import { ParkingSensorsService } from 'src/parking-sensors/parking-sensors.service';
 import { ParkingSensor } from 'src/parking-sensors/entities/parking-sensor.entity';
+import { SensorMaintenance } from 'src/sensors-maintenance/entities/sensor-maintenance.entity';
+import { SensorsMaintenanceService } from 'src/sensors-maintenance/sensors-maintenance.service';
 
 @Injectable()
 export class SensorsScrapingService{
@@ -21,22 +23,24 @@ export class SensorsScrapingService{
         private readonly dtoValidatorService: DtoValidatorService,
         private readonly sensorService: SensorsService,
         private readonly parkingSensorsService: ParkingSensorsService,
+        private readonly sensorsMaintenanceService: SensorsMaintenanceService,
         private readonly sensorScrapingDtoToSensorAutomapper: 
             SensorScrapingDtoToSensorAutomapper,
         private readonly sensorScrapingDtoToParkingSensorAutomapper: 
             SensorScrapingDtoToParkingSensorAutomapper,
         ){}
 
-    //@Cron('*/1 * * * *')
+    @Cron('*/2 * * * *')
     async scrapeAndPersistSensors() {
         this.logger.log('Started scraping sensors...');
 
         const sensorScrapingDto: SensorScrapingDto[] = await this.getSensorsScrapingDto();
-        const sensors: Sensor[] = this.mapSensorScrapingDtoToSensor(sensorScrapingDto);
+        let sensors: Sensor[] = this.mapSensorScrapingDtoToSensor(sensorScrapingDto);
         const parkingSensors: ParkingSensor[] = this.mapSensorScrapingDtoToParkingSensor(sensorScrapingDto);
 
         const sensorsResponse = await this.saveSensorsToDatabase(sensors);
         const parkingSensorsResponse = await this.saveParkingSensorsToDatabase(parkingSensors);
+        const sensorsMaintenanceResponse = await this.addSensorsMaintenanceToSensors();
         
         this.logger.log('Finished scraping sensors');
     }
@@ -60,6 +64,11 @@ export class SensorsScrapingService{
         return this.parkingSensorsService.createOrUpdateParkingSensors(parkingSensors);
     }
 
+    saveSensorsMaintenanceToDatabase(sensorsMaintenance: SensorMaintenance[]){
+        return this.sensorsMaintenanceService
+            .createSensorsMaintenance(sensorsMaintenance);
+    }
+
     mapSensorScrapingDtoToSensor(sensorScrapingDto: SensorScrapingDto[]): Sensor[]{
         return this.sensorScrapingDtoToSensorAutomapper
             .mapFromArray(sensorScrapingDto);
@@ -77,5 +86,15 @@ export class SensorsScrapingService{
         .map(item => item.attributes)
 
        return sensors
+    }
+
+    async addSensorsMaintenanceToSensors(): Promise<SensorMaintenance[]>{
+        const sensorsWithoutSensorMaintenance = 
+            await this.sensorService.getSensorsWithoutSensorMaintenance();
+        const sensorsMaintenance: SensorMaintenance[] = 
+            this.sensorsMaintenanceService
+                .createArrayOfSensorsMaintenance(sensorsWithoutSensorMaintenance);
+
+        return this.saveSensorsMaintenanceToDatabase(sensorsMaintenance);
     }
 }

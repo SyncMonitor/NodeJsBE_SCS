@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { IsNull } from 'typeorm';
 import { Sensor } from './entities/sensor.entity';
 import { SensorsRepository } from './sensors.repository';
 
@@ -22,5 +23,10 @@ export class SensorsService {
                 id: id
             }
         })
+    }
+
+    getSensorsWithoutSensorMaintenance(){
+        return this.sensorsRepository
+            .getSensorsWithoutSensorMaintenance()
     }
 }
