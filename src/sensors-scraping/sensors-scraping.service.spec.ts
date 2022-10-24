@@ -1,14 +1,17 @@
-import { HttpService } from "@nestjs/axios";
-import { Test } from "@nestjs/testing";
-import { SensorScrapingDto } from "./dto/sensor-scraping.dto";
-import { SensorsScrapingService } from "./sensors-scraping.service"
+import { HttpService } from '@nestjs/axios';
+import { Test } from '@nestjs/testing';
+import { SensorScrapingDto } from './dto/sensor-scraping.dto';
+import { SensorsScrapingService } from './sensors-scraping.service'
 import { createMock } from '@golevelup/ts-jest';
-import { of } from "rxjs";
-import { DtoValidatorService } from "src/dto-validator/dto-validator.service";
-import { SensorScrapingDtoToSensorAutomapper } from "src/automapper-custom/sensor-scraping-dto-to-sensor.automapper";
-import { SensorsService } from "src/sensors/sensors.service";
-import { SensorScrapingDtoToParkingSensorAutomapper } from "src/automapper-custom/sensor-scraping-dto-to-parking-sensor.automapper";
-import { ParkingSensorsService } from "src/parking-sensors/parking-sensors.service";
+import { of } from 'rxjs';
+import { DtoValidatorService } from 'src/dto-validator/dto-validator.service';
+import { SensorScrapingDtoToSensorAutomapper } from 'src/automapper-custom/sensor-scraping-dto-to-sensor.automapper';
+import { SensorsService } from 'src/sensors/sensors.service';
+import { SensorScrapingDtoToParkingSensorAutomapper } from 'src/automapper-custom/sensor-scraping-dto-to-parking-sensor.automapper';
+import { ParkingSensorsService } from 'src/parking-sensors/parking-sensors.service';
+import { MaintainerRegistry } from 'src/maintainers-registry/entities/maintainer-registry.entity';
+import { SensorMaintenance } from 'src/sensors-maintenance/entities/sensor-maintenance.entity';
+import { SensorsMaintenanceService } from 'src/sensors-maintenance/sensors-maintenance.service';
 
 describe('SensorsScraping', () =>{
     let sensorsScrapingService: SensorsScrapingService;
@@ -17,6 +20,7 @@ describe('SensorsScraping', () =>{
     let dtoValidatorService: DtoValidatorService;
     let sensorsService: SensorsService;
     let parkingSensorsService: ParkingSensorsService;
+    let sensorsMaintenanceService: SensorsMaintenanceService;
     let sensorScrapingDtoToSensorAutomapper: 
         SensorScrapingDtoToSensorAutomapper;
     let sensorScrapingDtoToParkingSensorAutomapper: 
@@ -44,6 +48,10 @@ describe('SensorsScraping', () =>{
                     useValue: createMock<ParkingSensorsService>()
                 },
                 {
+                    provide: SensorsMaintenanceService,
+                    useValue: createMock<SensorsMaintenanceService>()
+                },
+                {
                     provide: SensorScrapingDtoToSensorAutomapper,
                     useValue: createMock<SensorScrapingDtoToSensorAutomapper>()
                 },
@@ -59,6 +67,7 @@ describe('SensorsScraping', () =>{
         dtoValidatorService = moduleRef.get<DtoValidatorService>(DtoValidatorService);
         sensorsService = moduleRef.get<SensorsService>(SensorsService);
         parkingSensorsService = moduleRef.get<ParkingSensorsService>(ParkingSensorsService);
+        sensorsMaintenanceService = moduleRef.get<SensorsMaintenanceService>(SensorsMaintenanceService);
         sensorScrapingDtoToSensorAutomapper = moduleRef.get<SensorScrapingDtoToSensorAutomapper>
             (SensorScrapingDtoToSensorAutomapper);
         sensorScrapingDtoToParkingSensorAutomapper = moduleRef.get<SensorScrapingDtoToParkingSensorAutomapper>
@@ -124,10 +133,10 @@ describe('SensorsScraping', () =>{
     describe('xmlToSensorObjectArray', () => {
         it('converted xml should be an object', () => {
             const xml = `
-            <?xml version="1.0"?>
+            <?xml version='1.0'?>
             <markers>
-            <marker id="1" name="156A2C71" address="Padova Galleria Spagna" lat="45.389040" lng="11.928577" state="0" battery="3,7V" active="1"/>
-            <marker id="2" name="156A2A71" address="Padova Galleria Spagna" lat="45.389029" lng="11.928598" state="1" battery="3,7V" active="1"/>
+            <marker id='1' name='156A2C71' address='Padova Galleria Spagna' lat='45.389040' lng='11.928577' state='0' battery='3,7V' active='1'/>
+            <marker id='2' name='156A2A71' address='Padova Galleria Spagna' lat='45.389029' lng='11.928598' state='1' battery='3,7V' active='1'/>
             </markers>`
             const obj = [
                 {
