@@ -43,7 +43,9 @@ export class ParkingSensorsService {
                 sensor: true,
             },
             where: {
-                id: id
+                sensor: {
+                    id: id
+                }
             }
         });
     }
