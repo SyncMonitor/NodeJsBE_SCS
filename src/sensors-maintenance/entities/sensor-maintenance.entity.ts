@@ -10,13 +10,22 @@ export class SensorMaintenance{
     })
 	id: string;
 
-	@Column({ name: 'to_be_repaired' })
+	@Column({ 
+        name: 'to_be_repaired',
+        default: false,
+    })
 	toBeRepaired: boolean;
 
-	@Column({ name: 'to_be_charged' })
+	@Column({ 
+        name: 'to_be_charged',
+        default: false,
+    })
 	toBeCharged: boolean;
 
-	@Column({ name: 'is_updating' })
+	@Column({ 
+        name: 'is_updating',
+        default: false,
+    })
 	isUpdating: boolean;
 
     @OneToOne(
