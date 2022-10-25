@@ -6,15 +6,19 @@ import { ParkingSpotsService } from './parking-spots.service';
 import { ParkingSpotsController } from './parking-spots.controller';
 import { ParkingAreasModule } from 'src/parking-areas/parking-areas.module';
 import { ParkingSpotsParkingAreasController } from './parking-spots-parking-areas.controller';
+import { ParkingSpotsSensorsController } from './parking-spots-sensors.controller';
+import { SensorsModule } from 'src/sensors/sensors.module';
 
 @Module({
     imports: [ 
         TypeOrmModule.forFeature([ ParkingSpot ]),
         ParkingAreasModule,
+        SensorsModule,
     ],
     controllers: [
         ParkingSpotsController, 
         ParkingSpotsParkingAreasController,
+        ParkingSpotsSensorsController,
     ],
     providers: [
         ParkingSpotsService,
