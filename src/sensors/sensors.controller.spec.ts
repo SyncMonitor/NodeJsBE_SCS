@@ -1,7 +1,6 @@
 import { createMock } from '@golevelup/ts-jest';
 import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Sensor } from './entities/sensor.entity';
 import { SensorsController } from './sensors.controller';
 import { SensorsService } from './sensors.service';
 
@@ -50,6 +49,28 @@ describe('SensorsController', () => {
         .mockImplementation(() => Promise.resolve(null));
 
       const response = sensorsController.getSensorById('99');
+
+      await expect(response).rejects.toThrow(HttpException);
+    })
+  })
+
+  describe('getSensorByIdWithSensorMaintenance', () => {
+    it('should return the sensor if found', async () => {
+      jest.spyOn(sensorsService, 'getSensorByIdWithSensorMaintenance')
+        .mockImplementation(() => Promise.resolve(sensor));
+
+      const response = 
+        sensorsController.getSensorByIdWithSensorMaintenance('1');
+
+      await expect(response).resolves.toEqual(sensor);
+    });
+
+    it('should throw an HttpException if sensor not found', async () => {
+      jest.spyOn(sensorsService, 'getSensorByIdWithSensorMaintenance')
+        .mockImplementation(() => Promise.resolve(null));
+
+      const response = 
+        sensorsController.getSensorByIdWithSensorMaintenance('1');
 
       await expect(response).rejects.toThrow(HttpException);
     })

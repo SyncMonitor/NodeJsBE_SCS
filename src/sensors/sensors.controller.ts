@@ -29,4 +29,16 @@ export class SensorsController {
         else
             throw new HttpException('', HttpStatus.NOT_FOUND);
     }
+
+    @Get(':id/sensors-maintenance')
+    async getSensorByIdWithSensorMaintenance(@Param('id') id: string){
+        const sensor: Sensor =
+            await this.sensorsServices
+                .getSensorByIdWithSensorMaintenance(id);
+        
+        if(!isEmpty(sensor))
+            return sensor;
+        else
+            throw new HttpException('', HttpStatus.NOT_FOUND);
+    }
 }

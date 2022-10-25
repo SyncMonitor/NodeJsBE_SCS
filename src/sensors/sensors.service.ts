@@ -50,4 +50,15 @@ export class SensorsService {
             }
         })
     }
+
+    getSensorByIdWithSensorMaintenance(id: string){
+        return this.sensorsRepository.findOne({
+            relations: {
+                sensorMaintenance: true,
+            },
+            where: {
+                id: id,
+            }
+        })
+    }
 }
