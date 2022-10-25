@@ -14,7 +14,7 @@ export class SensorsParkingSpotsController{
     async getAllSensorsByParkingSpotId(@Param('id') id: string){
         const parkingSpot = 
             await this.parkingSpotsService.getParkingSpotById(id);
-        console.log(parkingSpot)
+        
         if(isEmpty(parkingSpot))
             throw new HttpException('', HttpStatus.NOT_FOUND);
 
