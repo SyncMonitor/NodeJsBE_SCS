@@ -29,4 +29,17 @@ export class SensorsService {
         return this.sensorsRepository
             .getSensorsWithoutSensorMaintenance()
     }
+
+    getAllSensorsByParkingSpotId(id: string){
+        return this.sensorsRepository.find({
+            relations: {
+               parkingSpots: false,
+            },
+            where: {
+                parkingSpots: {
+                    id: id,
+                }
+            }
+        })
+    }
 }
