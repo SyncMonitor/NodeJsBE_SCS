@@ -13,6 +13,12 @@ export class SensorsController {
         return this.sensorsServices.getAllSensors();
     }
 
+    @Get('sensors-maintenance')
+    getAllSensorsWithSensorMaintenance(){
+        return this.sensorsServices
+            .getAllSensorsWithSensorMaintenance();
+    }
+
     @Get(':id')
     async getSensorById(@Param('id') id: string){
         const sensor: Sensor = 
