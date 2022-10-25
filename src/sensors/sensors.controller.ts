@@ -13,10 +13,28 @@ export class SensorsController {
         return this.sensorsServices.getAllSensors();
     }
 
+    @Get('sensors-maintenance')
+    getAllSensorsWithSensorMaintenance(){
+        return this.sensorsServices
+            .getAllSensorsWithSensorMaintenance();
+    }
+
     @Get(':id')
     async getSensorById(@Param('id') id: string){
         const sensor: Sensor = 
             await this.sensorsServices.getSensorById(id);
+        
+        if(!isEmpty(sensor))
+            return sensor;
+        else
+            throw new HttpException('', HttpStatus.NOT_FOUND);
+    }
+
+    @Get(':id/sensors-maintenance')
+    async getSensorByIdWithSensorMaintenance(@Param('id') id: string){
+        const sensor: Sensor =
+            await this.sensorsServices
+                .getSensorByIdWithSensorMaintenance(id);
         
         if(!isEmpty(sensor))
             return sensor;

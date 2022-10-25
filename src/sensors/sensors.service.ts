@@ -42,4 +42,23 @@ export class SensorsService {
             }
         })
     }
+
+    getAllSensorsWithSensorMaintenance(){
+        return this.sensorsRepository.find({
+            relations: {
+                sensorMaintenance: true,
+            }
+        })
+    }
+
+    getSensorByIdWithSensorMaintenance(id: string){
+        return this.sensorsRepository.findOne({
+            relations: {
+                sensorMaintenance: true,
+            },
+            where: {
+                id: id,
+            }
+        })
+    }
 }
