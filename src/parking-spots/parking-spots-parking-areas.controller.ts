@@ -1,5 +1,4 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from "@nestjs/common";
-import { ParkingArea } from "src/parking-areas/entities/parking-area.entity";
 import { ParkingAreasService } from "src/parking-areas/parking-areas.service";
 import { ParkingSpotsService } from "./parking-spots.service";
 import { isEmpty } from "underscore"
@@ -17,14 +16,16 @@ export class ParkingSpotsParkingAreasController{
 
     @Get()
     async getAllParkingSpotsByParkingAreaId(@Param('id') id: string){
-        
+        const parkingArea =
+            await this.parkingAreasService.getParkingAreaById(id);
+
+        if(isEmpty(parkingArea))
+            throw new HttpException('', HttpStatus.NOT_FOUND);
+
         const parkingSpots = 
             await this.parkingSpotsService.getAllParkingSpotsByParkingAreaId(id);
 
-        if(!isEmpty(parkingSpots))
-            return parkingSpots;
-        else
-            throw new HttpException('', HttpStatus.NOT_FOUND)
+        return parkingSpots;
     }
 
     @Post()

@@ -12,12 +12,15 @@ export class ParkingSensorsSensorsController{
 
     @Get()
     async getAllParkingSensorsBySensorId(@Param('id') id: string){
+        const sensor = 
+            await this.sensorsService.getSensorById(id);
+
+        if(isEmpty(sensor))
+            throw new HttpException('', HttpStatus.NOT_FOUND);
+
         const parkingSensors = 
             await this.parkingSensorsService.getAllParkingSensorsBySensorId(id);
         
-        if(!isEmpty(parkingSensors))
-            return parkingSensors;
-        else
-            throw new HttpException('', HttpStatus.NOT_FOUND);
+        return parkingSensors;
     }
 }

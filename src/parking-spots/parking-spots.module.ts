@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ParkingSpot } from './entities/parking-spot.entity';
 import { ParkingSpotsRepository } from './parking-spots.repository';
@@ -13,7 +13,7 @@ import { SensorsModule } from 'src/sensors/sensors.module';
     imports: [ 
         TypeOrmModule.forFeature([ ParkingSpot ]),
         ParkingAreasModule,
-        SensorsModule,
+        forwardRef(() => SensorsModule),
     ],
     controllers: [
         ParkingSpotsController, 
@@ -24,6 +24,8 @@ import { SensorsModule } from 'src/sensors/sensors.module';
         ParkingSpotsService,
         ParkingSpotsRepository,
     ],
-    exports: [],
+    exports: [
+        ParkingSpotsService,
+    ],
 })
 export class ParkingSpotsModule {}

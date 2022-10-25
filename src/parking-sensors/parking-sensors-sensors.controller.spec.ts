@@ -59,6 +59,8 @@ describe('ParkingSensorsController', () => {
 
   describe('getAllParkingSensorsBySensorId', () => {
     it('should return a the parking sensor if the sensor was found', async () => {
+        jest.spyOn(sensorsService, 'getSensorById')
+            .mockImplementation(() => Promise.resolve(sensor));
         jest.spyOn(parkingSensorsService, 'getAllParkingSensorsBySensorId')
             .mockImplementation(() => Promise.resolve(parkingSensors));
 
@@ -69,7 +71,7 @@ describe('ParkingSensorsController', () => {
     });
 
     it('should throw an HtppException if the sensor wasn\'t found', async () => {
-        jest.spyOn(parkingSensorsService, 'getAllParkingSensorsBySensorId')
+        jest.spyOn(sensorsService, 'getSensorById')
             .mockImplementation(() => Promise.resolve(null));
 
         const response = 

@@ -64,8 +64,10 @@ describe('ParkingSpotsParkingAreasController', () => {
 
   describe('getAllParkingSpotsByParkingAreaId', () => {
     it('should return the parking spots if the parking area was found', async () => {
+      jest.spyOn(parkingAreasService, 'getParkingAreaById')
+        .mockImplementation(() => Promise.resolve(parkingArea));
       jest.spyOn(parkingSpotsService, 'getAllParkingSpotsByParkingAreaId')
-        .mockImplementation(() => parkingSpots);
+        .mockImplementation(() => Promise.resolve(parkingSpots));
 
       const response = 
         parkingSpotsParkingAreasController.getAllParkingSpotsByParkingAreaId('1');
@@ -74,7 +76,7 @@ describe('ParkingSpotsParkingAreasController', () => {
     })
 
     it('should throw an HttpException if the parking area was not found', async () => {
-      jest.spyOn(parkingSpotsService, 'getAllParkingSpotsByParkingAreaId')
+      jest.spyOn(parkingAreasService, 'getParkingAreaById')
         .mockImplementation(() => Promise.resolve(null));
 
       const response = 
