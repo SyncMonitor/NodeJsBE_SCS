@@ -14,11 +14,6 @@ export class ParkingSpotsService {
         private parkingAreasService: ParkingAreasService,
     ){}
 
-    createOrUpdateParkingSpots(parkingSpots: ParkingSpot[]){
-
-        return this.parkingSpotsRepository.save(parkingSpots);
-    }
-
     getAllParkingSpotsByParkingAreaId(id: string){
         return this.parkingSpotsRepository.find({
             relations: {
@@ -43,6 +38,24 @@ export class ParkingSpotsService {
                 id: id,
             }
         })
+    }
+
+    getAllParkingSpotsBySensorId(id: string){
+        return this.parkingSpotsRepository.find({
+            relations: {
+                sensors: false,
+            },
+            where: {
+                sensors: {
+                    id: id,
+                }
+            }
+        })
+    }
+
+    createOrUpdateParkingSpots(parkingSpots: ParkingSpot[]){
+
+        return this.parkingSpotsRepository.save(parkingSpots);
     }
 
     async createParkingSpotByParkingAreaId(id: string, parkingSpot: ParkingSpot){
