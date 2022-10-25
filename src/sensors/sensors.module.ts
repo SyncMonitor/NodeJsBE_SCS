@@ -4,6 +4,7 @@ import { Sensor } from './entities/sensor.entity';
 import { SensorsRepository } from './sensors.repository';
 import { SensorsService } from './sensors.service';
 import { SensorsController } from './sensors.controller';
+import { SensorsParkingSpotsController } from './sensors-parking-spots.controller';
 
 @Module({
     imports: [ 
@@ -14,6 +15,9 @@ import { SensorsController } from './sensors.controller';
         SensorsRepository,
     ],
     exports: [ SensorsService ],
-    controllers: [SensorsController],
+    controllers: [
+        SensorsController,
+        SensorsParkingSpotsController,
+    ],
 })
 export class SensorsModule {}

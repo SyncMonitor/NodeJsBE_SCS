@@ -5,6 +5,7 @@ import { SensorsMaintenanceService } from './sensors-maintenance.service';
 import { isEmpty } from 'underscore';
 import { MaintainerRegistry } from 'src/maintainers-registry/entities/maintainer-registry.entity';
 import { SensorMaintenance } from './entities/sensor-maintenance.entity';
+import { Sensor } from 'src/sensors/entities/sensor.entity';
 
 describe('SensorsMaintenanceService', () => {
   let sensorsMaintenanceService: SensorsMaintenanceService;
@@ -121,8 +122,6 @@ describe('SensorsMaintenanceService', () => {
 
   describe('createArrayOfSensorsMaintenance', () => {
         it('should return an array of SensorMaintenance from an array of Sensor', () => {
-            const maintainerRegistry = new MaintainerRegistry();
-            const sensorMaintenance = new SensorMaintenance();
             const date = new Date();
             const sensors = [
                 {
@@ -133,8 +132,6 @@ describe('SensorsMaintenanceService', () => {
                     'type': 'ParkingSensor',
                     'isActive': true,
                     'lastSurvey': date,
-                    maintainerRegistry: maintainerRegistry,
-                    sensorMaintenance: sensorMaintenance,
                 },
                 {
                     'id': '2',
@@ -144,8 +141,6 @@ describe('SensorsMaintenanceService', () => {
                     'type': 'ParkingSensor',
                     'isActive': true,
                     'lastSurvey': date,
-                    maintainerRegistry: maintainerRegistry,
-                    sensorMaintenance: sensorMaintenance,
                 }
             ];
             const sensorsMaintenance = [
@@ -158,8 +153,6 @@ describe('SensorsMaintenanceService', () => {
                         'type': 'ParkingSensor',
                         'isActive': true,
                         'lastSurvey': date,
-                        maintainerRegistry: maintainerRegistry,
-                        sensorMaintenance: sensorMaintenance,
                     }
                 },
                 {
@@ -171,13 +164,11 @@ describe('SensorsMaintenanceService', () => {
                         'type': 'ParkingSensor',
                         'isActive': true,
                         'lastSurvey': date,
-                        maintainerRegistry: maintainerRegistry,
-                        sensorMaintenance: sensorMaintenance,
                     }
                 }
             ];
 
-            const returnValue = sensorsMaintenanceService.createArrayOfSensorsMaintenance(sensors);
+            const returnValue = sensorsMaintenanceService.createArrayOfSensorsMaintenance(sensors as Sensor[]);
 
             expect(returnValue).toEqual(sensorsMaintenance);
         })
