@@ -1,6 +1,7 @@
 import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundError } from 'src/exceptions/not-found.exception';
+import { UpdateError } from 'src/exceptions/update.exception';
 import { ParkingAreasService } from 'src/parking-areas/parking-areas.service';
 import { ParkingSpotsRepository } from './parking-spots.repository';
 import { ParkingSpotsService } from './parking-spots.service';
@@ -12,6 +13,8 @@ describe('ParkingSpotsService', () => {
   let parkingArea;
   let parkingSpot;
   let insertParkingSpotResponse;
+  let recordUpdatedResponse;
+  let recordNotUpdatedResponse;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -53,6 +56,9 @@ describe('ParkingSpotsService', () => {
     raw: [ { id: '10' } ]
   }
 
+  recordUpdatedResponse = { generatedMaps: [], raw: [], affected: 1 };
+  recordNotUpdatedResponse = { generatedMaps: [], raw: [], affected: 0 };
+
   describe('createParkingSpotByParkingAreaId', () => {
     it('should return the parking spot created if one was created', async () => {
       jest.spyOn(parkingAreasService, 'getParkingAreaById')
@@ -77,5 +83,41 @@ describe('ParkingSpotsService', () => {
 
       await expect(response).rejects.toThrow(NotFoundError);
     })
+  });
+
+  describe('editParkingSpotById', () => {
+    it('should return the parking spot edited if it was edited', async () => {
+      jest.spyOn(parkingSpotsService, 'getParkingSpotById')
+        .mockImplementation(() => Promise.resolve(parkingSpot));
+      jest.spyOn(parkingSpotsRepository, 'update')
+        .mockImplementation(() => Promise.resolve(recordUpdatedResponse));
+
+      const response = 
+        parkingSpotsService.editParkingSpotById('1', parkingSpot);
+
+      await expect(response).resolves.toEqual(parkingSpot);
+    });
+
+    it('should throw a NotFoundError if the parking spot id wasn\'t found', async () => {
+      jest.spyOn(parkingSpotsService, 'getParkingSpotById')
+        .mockImplementation(() => Promise.resolve(null));
+
+      const response = 
+        parkingSpotsService.editParkingSpotById('1', parkingSpot);
+
+      await expect(response).rejects.toThrow(NotFoundError);
+    });
+
+    it('should throw an UpdateError if it couldn\'t update the record', async () => {
+      jest.spyOn(parkingSpotsService, 'getParkingSpotById')
+        .mockImplementation(() => Promise.resolve(parkingSpot));
+      jest.spyOn(parkingSpotsRepository, 'update')
+        .mockImplementation(() => Promise.resolve(recordNotUpdatedResponse));
+
+      const response = 
+        parkingSpotsService.editParkingSpotById('1', parkingSpot);
+
+      await expect(response).rejects.toThrow(UpdateError);
+    });
   })
 });

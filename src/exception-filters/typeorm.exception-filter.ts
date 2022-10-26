@@ -3,6 +3,7 @@ import { QueryFailedError, EntityNotFoundError, CannotCreateEntityIdMapError } f
 import { Response } from 'express'
 import { GlobalResponseError } from "./global-response-error.class";
 import { NotFoundError } from "src/exceptions/not-found.exception";
+import { UpdateError } from "src/exceptions/update.exception";
 
 @Catch()
 export class TypeOrmExceptionFilter implements ExceptionFilter{
@@ -51,6 +52,11 @@ export class TypeOrmExceptionFilter implements ExceptionFilter{
                 break;
             case NotFoundError: // custom error
                 status = HttpStatus.NOT_FOUND;
+                message = (exception as NotFoundError).message;
+                code = (exception as any).code;
+                break;
+            case UpdateError: // custom error
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
                 message = (exception as NotFoundError).message;
                 code = (exception as any).code;
                 break;

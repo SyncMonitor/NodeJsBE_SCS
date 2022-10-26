@@ -1,7 +1,6 @@
 import { createMock } from '@golevelup/ts-jest';
 import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { response, Response } from 'express';
 import { ParkingAreasController } from './parking-areas.controller';
 import { ParkingAreasService } from './parking-areas.service';
 
