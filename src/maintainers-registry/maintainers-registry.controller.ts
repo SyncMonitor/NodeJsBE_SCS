@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { MaintainerRegistry } from './entities/maintainer-registry.entity';
 import { MaintainersRegistryService } from './maintainers-registry.service';
 import { isEmpty } from 'underscore'
@@ -33,5 +33,14 @@ export class MaintainersRegistryController {
                 throw new HttpException(error.message, HttpStatus.CONFLICT)
             throw(error);
         }
+    }
+
+    @Put(':id')
+    editMaintainerById(
+        @Param('id') id: string,
+        @Body() maintainerRegistry: MaintainerRegistry,
+    ){
+        return this.maintainersRegistryService
+            .editMaintainerById(id, maintainerRegistry);
     }
 }
