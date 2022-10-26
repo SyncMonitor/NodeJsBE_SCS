@@ -5,6 +5,7 @@ import { ParkingSpot } from './entities/parking-spot.entity';
 import { ParkingSpotsRepository } from './parking-spots.repository';
 import { isEmpty } from 'underscore'
 import { NotFoundError } from 'src/exceptions/not-found.exception';
+import { UpdateError } from 'src/exceptions/update.exception';
 
 @Injectable()
 export class ParkingSpotsService {
@@ -29,11 +30,7 @@ export class ParkingSpotsService {
     }
 
     getParkingSpotById(id: string){
-        return this.parkingSpotsRepository.find({
-            relations: {
-                parkingArea: true,
-                sensors: true,
-            },
+        return this.parkingSpotsRepository.findOne({
             where: {
                 id: id,
             }
@@ -69,5 +66,20 @@ export class ParkingSpotsService {
         const parkingSpotInsertedId = response.identifiers[0].id;
 
         return this.getParkingSpotById(parkingSpotInsertedId);
+    }
+
+    async editParkingSpotById(id: string, parkingSpot: ParkingSpot){
+        if(isEmpty(await this.getParkingSpotById(id)))
+            throw new NotFoundError('parking spot id not found');
+
+        const updateResponse = 
+            await this.parkingSpotsRepository.update(id, parkingSpot);
+
+        const numberRowAffected = updateResponse.affected;
+
+        if(numberRowAffected !== 1)
+            throw new UpdateError('problem to update record');
+
+        return this.getParkingSpotById(id);
     }
 }
