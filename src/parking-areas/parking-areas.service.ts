@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { UpdateError } from 'src/exceptions/update.exception';
 import { ParkingArea } from './entities/parking-area.entity';
 import { ParkingAreasRepository } from './parking-areas.repository';
+import { isEmpty } from 'underscore';
+import { NotFoundError } from 'src/exceptions/not-found.exception';
 
 @Injectable()
 export class ParkingAreasService {
@@ -24,5 +27,20 @@ export class ParkingAreasService {
         const parkingAreaInsertedId = response.identifiers[0].id;
 
         return this.getParkingAreaById(parkingAreaInsertedId);
+    }
+
+    async editParkingAreaById(id: string, parkingArea: ParkingArea){
+        if(isEmpty(await this.getParkingAreaById(id)))
+            throw new NotFoundError('parking area id not found');
+
+        const updateResponse = await this.parkingAreasRepository
+            .update(id, parkingArea);
+
+        const numberRowAffected = updateResponse.affected;
+        
+        if(numberRowAffected !== 1) 
+            throw new UpdateError('problem to update record');
+
+        return this.getParkingAreaById(id);
     }
 }
