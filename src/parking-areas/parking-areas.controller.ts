@@ -1,9 +1,7 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { ParkingArea } from './entities/parking-area.entity';
 import { ParkingAreasService } from './parking-areas.service';
 import { isEmpty } from 'underscore';
-import { Response } from 'express'
-import { ParkingSpotsService } from 'src/parking-spots/parking-spots.service';
 
 @Controller('parking-areas')
 export class ParkingAreasController {
@@ -34,5 +32,14 @@ export class ParkingAreasController {
             if(error.code == 23505) throw new HttpException(error.message, HttpStatus.CONFLICT);
             else throw(error)
         }
+    }
+
+    @Put(':id')
+    editParkingAreaById(
+        @Param('id') id: string,
+        @Body() parkingArea: ParkingArea,
+    ){
+        return this.parkingAreasService
+            .editParkingAreaById(id, parkingArea);
     }
 }
