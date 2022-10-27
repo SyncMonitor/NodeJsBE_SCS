@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Put } from '@nestjs/common';
+import { Body, Controller, Delete, HttpCode, Param, Put } from '@nestjs/common';
 import { ParkingSpot } from './entities/parking-spot.entity';
 import { ParkingSpotsService } from './parking-spots.service';
 
@@ -15,5 +15,12 @@ export class ParkingSpotsController {
     ){
         return this.parkingSpotsService
             .editParkingSpotById(id, parkingSpot);
+    }
+
+    @Delete(':id')
+    @HttpCode(204)
+    deleteParkingSpotById(@Param('id') id: string){
+        return this.parkingSpotsService
+            .deleteParkingSpotById(id);
     }
 }

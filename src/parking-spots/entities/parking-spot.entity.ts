@@ -22,7 +22,11 @@ export class ParkingSpot{
     @IsNotEmpty()
 	longitude: string;
 
-    @ManyToMany(() => Sensor, (sensor) => sensor.parkingSpots)
+    @ManyToMany(
+        () => Sensor, 
+        (sensor) => sensor.parkingSpots,
+        {onDelete: 'CASCADE'},
+    )
     @JoinTable()
     sensors: Sensor[];
 

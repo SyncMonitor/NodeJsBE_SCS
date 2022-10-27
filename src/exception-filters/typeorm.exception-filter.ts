@@ -35,6 +35,10 @@ export class TypeOrmExceptionFilter implements ExceptionFilter{
                         status = HttpStatus.CONFLICT;
                         message = 'database error on unique constraint';
                         break;
+                    case '23503':
+                            status = HttpStatus.CONFLICT;
+                            message = 'database error on foreign key constaint';
+                            break;
                     default:
                         status = HttpStatus.UNPROCESSABLE_ENTITY
                         message = (exception as QueryFailedError).message;

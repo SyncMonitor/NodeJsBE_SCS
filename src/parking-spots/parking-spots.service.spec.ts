@@ -1,5 +1,6 @@
 import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
+import { DeleteError } from 'src/exceptions/delete.exception';
 import { NotFoundError } from 'src/exceptions/not-found.exception';
 import { UpdateError } from 'src/exceptions/update.exception';
 import { ParkingAreasService } from 'src/parking-areas/parking-areas.service';
@@ -15,6 +16,8 @@ describe('ParkingSpotsService', () => {
   let insertParkingSpotResponse;
   let recordUpdatedResponse;
   let recordNotUpdatedResponse;
+  let recordDeletedResponse;
+  let recordNotDeletedResponse;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -58,6 +61,9 @@ describe('ParkingSpotsService', () => {
 
   recordUpdatedResponse = { generatedMaps: [], raw: [], affected: 1 };
   recordNotUpdatedResponse = { generatedMaps: [], raw: [], affected: 0 };
+
+  recordDeletedResponse = { raw: [], affected: 1 };
+  recordNotDeletedResponse = { raw: [], affected: 0 };
 
   describe('createParkingSpotByParkingAreaId', () => {
     it('should return the parking spot created if one was created', async () => {
@@ -118,6 +124,42 @@ describe('ParkingSpotsService', () => {
         parkingSpotsService.editParkingSpotById('1', parkingSpot);
 
       await expect(response).rejects.toThrow(UpdateError);
+    });
+  });
+
+  describe('deleteParkingSpotById', () => {
+    it('should return void if the parking spot was deleted', async () => {
+      jest.spyOn(parkingSpotsService, 'getParkingSpotById')
+        .mockImplementation(() => Promise.resolve(parkingSpot));
+      jest.spyOn(parkingSpotsRepository, 'delete')
+        .mockImplementation(() => Promise.resolve(recordDeletedResponse));
+
+      const response = 
+        parkingSpotsService.deleteParkingSpotById('1');
+
+      await expect(response).resolves.toBeUndefined()
+    });
+
+    it('should throw a NotFoundError if the parking spot wasn\'t found', async () => {
+      jest.spyOn(parkingSpotsService, 'getParkingSpotById')
+        .mockImplementation(() => Promise.resolve(null));
+
+      const response = 
+        parkingSpotsService.deleteParkingSpotById('1');
+
+      await expect(response).rejects.toThrow(NotFoundError);
+    });
+
+    it('should throw a DeleteError if it couldn\'t delete the record', async () => {
+      jest.spyOn(parkingSpotsService, 'getParkingSpotById')
+        .mockImplementation(() => Promise.resolve(parkingSpot));
+      jest.spyOn(parkingSpotsRepository, 'delete')
+        .mockImplementation(() => Promise.resolve(recordNotDeletedResponse));
+
+      const response = 
+        parkingSpotsService.deleteParkingSpotById('1');
+
+      await expect(response).rejects.toThrow(DeleteError);
     });
   })
 });
