@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SensorsModule } from './sensors/sensors.module';
@@ -20,6 +20,9 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { TypeOrmExceptionFilter } from './exception-filters/typeorm.exception-filter';
 import { ExceptionFiltersModule } from './exception-filters/exception-filters.module';
 import { ExceptionsModule } from './exceptions/exceptions.module';
+import { LoggerMiddleware } from './middleware/logger.middleware';
+import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
@@ -45,6 +48,29 @@ import { ExceptionsModule } from './exceptions/exceptions.module';
         ],
       }),
       inject: [ ConfigService ],
+    }),
+    WinstonModule.forRoot({
+      level: 'info',
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.ms(),
+            nestWinstonModuleUtilities.format.nestLike('Nest', {
+              colors: true,
+              prettyPrint: true,
+            })
+          )
+        }),
+        new winston.transports.File({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.json(),
+          ),
+          filename: 'logs/NodeJsBE_SCS.log',
+          level: 'info'
+        })
+      ]
     }),
     SensorsModule,
     ParkingSpotsModule,
@@ -73,4 +99,8 @@ import { ExceptionsModule } from './exceptions/exceptions.module';
     },
 ],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
