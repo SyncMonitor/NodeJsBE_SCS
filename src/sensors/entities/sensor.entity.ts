@@ -40,6 +40,7 @@ export class Sensor{
     @ManyToOne(
             () => MaintainerRegistry, 
             ((maintainerRegistry) => maintainerRegistry.sensors),
+            { onDelete: 'SET NULL' }
         )
     @JoinColumn({ name: 'fk_maintainer_id' })
     maintainerRegistry: MaintainerRegistry;

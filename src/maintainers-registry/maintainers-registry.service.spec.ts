@@ -1,5 +1,6 @@
 import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
+import { DeleteError } from 'src/exceptions/delete.exception';
 import { NotFoundError } from 'src/exceptions/not-found.exception';
 import { UpdateError } from 'src/exceptions/update.exception';
 import { MaintainersRegistryRepository } from './maintainers-registry.repository';
@@ -11,6 +12,8 @@ describe('MaintainersRegistryService', () => {
   let maintainerRegistry;
   let recordUpdatedResponse;
   let recordNotUpdatedResponse;
+  let recordDeletedResponse;
+  let recordNotDeletedResponse;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -38,8 +41,11 @@ describe('MaintainersRegistryService', () => {
         'email': 'mario@sensorrepairing.it'
     }
 
-    recordUpdatedResponse = { generatedMaps: [], raw: [], affected: 1 };
-    recordNotUpdatedResponse = { generatedMaps: [], raw: [], affected: 0 };
+  recordUpdatedResponse = { generatedMaps: [], raw: [], affected: 1 };
+  recordNotUpdatedResponse = { generatedMaps: [], raw: [], affected: 0 };
+
+  recordDeletedResponse = { raw: [], affected: 1 };
+  recordNotDeletedResponse = { raw: [], affected: 0 };
 
   describe('editMaintainerById', () => {
     it('should return the maintainer registry updated if it was updated', async () => {
@@ -74,6 +80,42 @@ describe('MaintainersRegistryService', () => {
             maintainersRegistryService.editMaintainerById('1', maintainerRegistry);
 
         await expect(response).rejects.toThrow(UpdateError);
+    });
+  });
+
+  describe('deleteMaintainerById', () => {
+    it('should return undefined value if the maintainer registry was deleted', async () => {
+      jest.spyOn(maintainersRegistryService, 'getMaintainerById')
+        .mockImplementation(() => Promise.resolve(maintainerRegistry));
+      jest.spyOn(maintainersRegistryRepository, 'delete')
+      .mockImplementation(() => Promise.resolve(recordDeletedResponse));
+
+      const response = 
+        maintainersRegistryService.deleteMaintainerById('1');
+
+      await expect(response).resolves.toBeUndefined();
+    });
+
+    it('should throw a NotFoundError if the maintainer wasn\'t found', async () => {
+      jest.spyOn(maintainersRegistryService, 'getMaintainerById')
+        .mockImplementation(() => Promise.resolve(null));
+
+      const response = 
+        maintainersRegistryService.deleteMaintainerById('1');
+
+      await expect(response).rejects.toThrow(NotFoundError);
+    });
+
+    it('should throw a DeleteError if it couldn\'t delete the record', async () => {
+      jest.spyOn(maintainersRegistryService, 'getMaintainerById')
+        .mockImplementation(() => Promise.resolve(maintainerRegistry));
+      jest.spyOn(maintainersRegistryRepository, 'delete')
+        .mockImplementation(() => Promise.resolve(recordNotDeletedResponse));
+
+      const response = 
+        maintainersRegistryService.deleteMaintainerById('1');
+
+      await expect(response).rejects.toThrow(DeleteError);
     });
   });
 });
