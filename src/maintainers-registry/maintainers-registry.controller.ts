@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { MaintainerRegistry } from './entities/maintainer-registry.entity';
 import { MaintainersRegistryService } from './maintainers-registry.service';
 import { isEmpty } from 'underscore'
@@ -42,5 +42,12 @@ export class MaintainersRegistryController {
     ){
         return this.maintainersRegistryService
             .editMaintainerById(id, maintainerRegistry);
+    }
+
+    @Delete(':id')
+    @HttpCode(204)
+    deleteMaintainerById(@Param('id') id: string){
+        return this.maintainersRegistryService
+            .deleteMaintainerById(id);
     }
 }

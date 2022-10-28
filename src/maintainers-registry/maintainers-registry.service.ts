@@ -4,6 +4,7 @@ import { MaintainersRegistryRepository } from './maintainers-registry.repository
 import { isEmpty } from 'underscore';
 import { NotFoundError } from 'src/exceptions/not-found.exception';
 import { UpdateError } from 'src/exceptions/update.exception';
+import { DeleteError } from 'src/exceptions/delete.exception';
 
 @Injectable()
 export class MaintainersRegistryService {
@@ -43,5 +44,18 @@ export class MaintainersRegistryService {
             throw new UpdateError('problem to update record');
 
         return this.getMaintainerById(id);
+    }
+
+    async deleteMaintainerById(id: string){
+        if(isEmpty(await this.getMaintainerById(id)))
+            throw new NotFoundError('maintainer id not found');
+
+        const deleteResponse = 
+            await this.maintainersRegistryRepository.delete(id);
+
+        const numberRowAffected = deleteResponse.affected;
+
+        if(numberRowAffected !== 1)
+            throw new DeleteError('problem to delete record');
     }
 }
