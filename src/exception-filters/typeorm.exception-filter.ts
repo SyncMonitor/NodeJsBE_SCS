@@ -4,6 +4,8 @@ import { Response } from 'express'
 import { GlobalResponseError } from "./global-response-error.class";
 import { NotFoundError } from "src/exceptions/not-found.exception";
 import { UpdateError } from "src/exceptions/update.exception";
+import { DeleteError } from "src/exceptions/delete.exception";
+import { InsertError } from "src/exceptions/insert.exception";
 
 @Catch()
 export class TypeOrmExceptionFilter implements ExceptionFilter{
@@ -60,7 +62,9 @@ export class TypeOrmExceptionFilter implements ExceptionFilter{
                 message = (exception as NotFoundError).message;
                 code = (exception as any).code;
                 break;
+            case InsertError: // custom error
             case UpdateError: // custom error
+            case DeleteError: // custom error
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
                 message = (exception as NotFoundError).message;
                 code = (exception as any).code;
