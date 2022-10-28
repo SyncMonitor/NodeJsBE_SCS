@@ -128,7 +128,7 @@ describe('ParkingSpotsService', () => {
   });
 
   describe('deleteParkingSpotById', () => {
-    it('should return void if the parking spot was deleted', async () => {
+    it('should return undefined value if the parking spot was deleted', async () => {
       jest.spyOn(parkingSpotsService, 'getParkingSpotById')
         .mockImplementation(() => Promise.resolve(parkingSpot));
       jest.spyOn(parkingSpotsRepository, 'delete')
