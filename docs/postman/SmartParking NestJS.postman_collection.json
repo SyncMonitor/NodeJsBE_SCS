@@ -225,6 +225,27 @@
 					}
 				},
 				"url": {
+					"raw": "http://localhost:3000/scs/maintainers/199",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"scs",
+						"maintainers",
+						"199"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteMaintainerById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
 					"raw": "http://localhost:3000/scs/maintainers/1",
 					"protocol": "http",
 					"host": [
