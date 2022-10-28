@@ -33,7 +33,10 @@ export class ParkingSpot{
     @ManyToOne(
             () => ParkingArea, 
             (parkingArea) => parkingArea.parkingSpots,
-            { nullable: false }
+            { 
+                nullable: false,
+                onDelete: 'CASCADE',
+            }
         )
     @JoinColumn({ name: 'fk_parking_area_id' })
     parkingArea: ParkingArea

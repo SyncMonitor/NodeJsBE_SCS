@@ -4,6 +4,7 @@ import { ParkingArea } from './entities/parking-area.entity';
 import { ParkingAreasRepository } from './parking-areas.repository';
 import { isEmpty } from 'underscore';
 import { NotFoundError } from 'src/exceptions/not-found.exception';
+import { DeleteError } from 'src/exceptions/delete.exception';
 
 @Injectable()
 export class ParkingAreasService {
@@ -42,5 +43,18 @@ export class ParkingAreasService {
             throw new UpdateError('problem to update record');
 
         return this.getParkingAreaById(id);
+    }
+
+    async deleteParkingAreaById(id: string){
+        if(isEmpty(await this.getParkingAreaById(id)))
+            throw new NotFoundError('parking area id not found');
+
+        const deleteResponse = 
+            await this.parkingAreasRepository.delete(id);
+
+        const numberRowAffected = deleteResponse.affected;
+
+        if(numberRowAffected !== 1)
+            throw new DeleteError('problem to update record');
     }
 }
