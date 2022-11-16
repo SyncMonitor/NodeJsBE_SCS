@@ -30,7 +30,7 @@ export class SensorsScrapingService{
             SensorScrapingDtoToParkingSensorAutomapper,
         ){}
 
-    //@Cron('*/2 * * * *')
+    @Cron('*/2 * * * *')
     async scrapeAndPersistSensors() {
         this.logger.log('Started scraping sensors...');
 
